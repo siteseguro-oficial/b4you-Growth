@@ -1,560 +1,72 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#11182b">
-<title>B4You Growth Desk</title>
-
-<style>
-:root{
-  --bg:#f4f6fb;--card:#fff;--ink:#182139;--muted:#69758d;
-  --line:#e3e8f1;--purple:#6751df;--purplelight:#f0edff;
-  --green:#12815c;--greenlight:#e7f7ef;--orange:#a65e08;
-  --orang alight:#fff3dd;--red:#bb3848;--radius:16px;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #c9c1ff;outline-offset:2px}
-[hidden]{display:none!important}
-.topbar{background:#11182b;color:#fff;padding:15px max(16px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:44px;height:44px;border-radius:12px;background:#5ee1ce;color:#11182b;display:grid;place-items:center;font-size:19px;font-weight:900}
-.brand h1{font-size:17px;margin:0;line-height:1.2}
-.brand p{color:#b9c3d8;font-size:11px;margin:4px 0 0}
-.topcontrols{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.topcontrols select,.topcontrols button{background:#202b43;color:#fff;border:1px solid #43506b;border-radius:9px;padding:9px 11px}
-main{max-width:1180px;margin:auto;padding:22px 17px 42px}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:15px;margin-bottom:16px}
-.heromain,.potential,.stepsbox,.card,.side{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
-.heromain{padding:24px;background:linear-gradient(120deg,#fff,#f1efff)}
-.eyebrow{font-size:10px;text-transform:uppercase;font-weight:900;letter-spacing:1.2px;color:var(--purple)}
-.heromain h2{font-size:clamp(25px,3vw,35px);letter-spacing:-1px;line-height:1.15;margin:9px 0}
-.heromain p{color:var(--muted);margin:0;max-width:620px}
-.potential{padding:21px;background:#11182b;color:#fff}
-.potential .label{font-size:12px;color:#c2cce1}
-.potential strong{display:block;font-size:clamp(24px,3vw,33px);margin:8px 0;color:#68e1c5;overflow-wrap:anywhere}
-.potential small{color:#c2cce1;line-height:1.5;display:block}
-.stepsbox{padding:15px 17px;margin-bottom:16px}
-.progresstop{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);font-weight:750;margin-bottom:9px}
-.track{height:6px;background:#ebedf4;border-radius:99px;overflow:hidden}
-.track div{height:100%;background:var(--purple);width:16.7%;transition:width .2s}
-.steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin-top:13px}
-.step{border:0;background:#f4f5f9;color:#7c8497;border-radius:10px;padding:9px 3px;font-size:11px;font-weight:750;min-width:0}
-.step b{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:#e3e6ef;margin:0 auto 5px}
-.step.active{background:var(--purplelight);color:var(--purple)}
-.step.active b,.step.done b{background:var(--purple);color:white}
-.step.done{color:var(--green)}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:16px;align-items:start}
-.card{padding:clamp(17px,2.5vw,26px);min-width:0}
-.side{padding:17px;position:sticky;top:14px}
-.side h3{font-size:13px;margin:0 0 12px}
-.sidebrand{font-weight:850;font-size:17px;overflow-wrap:anywhere}
-.sideitem{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px}
-.sideitem span{color:var(--muted)}
-.sideitem strong{text-align:right}
-.side small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:12px}
-.panel[hidden]{display:none}
-.panelhead{margin-bottom:20px}
-.kicker{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--purple);font-weight:900}
-.panel h2{font-size:24px;letter-spacing:-.5px;line-height:1.2;margin:6px 0}
-.intro{margin:0;color:var(--muted);line-height:1.5}
-.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.field{min-width:0}
-.field label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}
-.field small{display:block;color:var(--muted);font-size:11px;margin-top:5px;line-height:1.45}
-.field input,.field select,.field textarea{width:100%;border:1px solid #d7deea;background:#fff;border-radius:10px;padding:11px 12px;min-width:0;color:var(--ink)}
-.money{display:flex;align-items:center;border:1px solid #d7deea;border-radius:10px;overflow:hidden}
-.money span,.percent span{padding:0 11px;align-self:stretch;display:flex;align-items:center;background:#f4f5fa;color:var(--muted);font-weight:800}
-.money input,.percent input{border:0;border-radius:0;min-width:0}
-.hint{background:var(--purplelight);color:#514583;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.5;margin-top:16px}
-.hint b{display:block;margin-bottom:3px;color:#392d7c}
-.metriclist,.auditlist,.tasklist{display:grid;gap:11px}
-.metric{border:1px solid var(--line);border-radius:13px;padding:14px;min-width:0}
-.mtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:11px}
-.mname{font-weight:850;font-size:14px}
-.mdesc{color:var(--muted);font-size:11px;margin-top:3px;line-height:1.45}
-.tag{background:var(--purplelight);color:var(--purple);border-radius:7px;padding:4px 7px;font-size:10px;font-weight:850;white-space:nowrap}
-.metricfields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.metricfields label{display:block;font-size:11px;color:var(--muted);font-weight:750;margin-bottom:5px}
-.percent{display:flex;align-items:center;border:1px solid #d7deea;border-radius:10px;overflow:hidden}
-.percent input{width:100%;border:0;padding:10px;min-width:0}
-.mfoot{font-size:11px;color:var(--muted);margin-top:9px;padding-top:8px;border-top:1px solid #eef0f5}
-.gapup{color:var(--orange);font-weight:850}
-.gapok{color:var(--green);font-weight:850}
-.stageRevenue{margin-top:12px;padding-top:11px;border-top:1px dashed var(--line)}
-.stageRevenue label{font-size:11px;font-weight:750;display:block;margin-bottom:5px}
-.stageRevenue small{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:4px}
-.audit{display:grid;grid-template-columns:minmax(0,1fr) 175px;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:11px}
-.auditname{font-size:13px;font-weight:850}
-.auditdesc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
-.audit select{width:100%;border:1px solid #d7deea;border-radius:9px;padding:9px;background:#fff;min-width:0;font-size:11px}
-.sectiontitle{font-size:16px;margin:22px 0 7px;font-weight:900}
-.sectionnote{font-size:12px;color:var(--muted);margin:0 0 12px}
-.btn{border:1px solid #d7deea;border-radius:10px;padding:10px 14px;background:white;color:var(--ink);font-size:12px;font-weight:800}
-.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);margin-top:22px;padding-top:17px}
-.navright{display:flex;gap:8px}
-.autosave{font-size:10px;color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
-.kpi{border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0;background:#fff}
-.kpi span{font-size:11px;color:var(--muted);display:block;line-height:1.4}
-.kpi strong{display:block;font-size:clamp(18px,2.3vw,25px);letter-spacing:-.6px;margin:7px 0;overflow-wrap:anywhere}
-.kpi small{font-size:10px;color:var(--muted);line-height:1.45;display:block}
-.kpi.highlight{background:var(--purplelight);border-color:#dcd5ff}
-.kpi.highlight strong{color:var(--purple)}
-.chartlist{display:grid;gap:10px}
-.chartrow{border:1px solid var(--line);border-radius:11px;padding:12px}
-.charttop{display:flex;justify-content:space-between;gap:8px;align-items:start;margin-bottom:9px}
-.chartname{font-weight:850;font-size:12px}
-.chartgap{font-size:10px;font-weight:850;color:var(--orange);text-align:right}
-.chartgap.ok{color:var(--green)}
-.barline{display:grid;grid-template-columns:40px minmax(40px,1fr) 48px;gap:7px;align-items:center;margin-top:6px;font-size:10px;color:var(--muted)}
-.bartrack{height:8px;background:#eef0f6;border-radius:99px;overflow:hidden}
-.barfill{height:100%;background:#9180f2;border-radius:99px}
-.barfill.target{background:#14815d}
-.barline b{text-align:right;font-size:10px;color:var(--ink)}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px}
-table{width:100%;border-collapse:collapse;font-size:11px;min-width:620px}
-th,td{text-align:left;padding:10px 9px;border-bottom:1px solid #edf0f6;vertical-align:top}
-th{background:#f6f7fb;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
-tr:last-child td{border-bottom:0}
-.action{display:grid;grid-template-columns:26px minmax(0,1fr) 110px;gap:10px;align-items:start;border:1px solid var(--line);border-radius:11px;padding:12px;break-inside:avoid}
-.actionnum{width:26px;height:26px;display:grid;place-items:center;background:var(--purplelight);color:var(--purple);border-radius:8px;font-weight:900}
-.action h4{font-size:12px;margin:0}
-.action p{font-size:11px;color:var(--muted);line-height:1.45;margin:4px 0 0}
-.actionmeta{text-align:right;font-size:10px;color:var(--muted)}
-.priority{display:inline-block;border-radius:6px;padding:4px 6px;font-size:10px;font-weight:900}
-.high{background:#fff0f0;color:var(--red)}
-.medium{background:#fff3dd;color:var(--orange)}
-.low{background:#eef0f6;color:var(--muted)}
-.action select{display:block;width:100%;margin-top:7px;padding:6px;border:1px solid #d7deea;border-radius:7px;background:white;font-size:10px}
-.empty{border:1px dashed #ccd4e4;border-radius:11px;padding:20px;text-align:center;color:var(--muted);font-size:12px;line-height:1.5}
-.warning{background:#fff4df;color:#80530b;border-radius:10px;padding:11px;font-size:11px;line-height:1.5;margin-top:10px}
-.chartbox{border:1px solid var(--line);border-radius:12px;padding:12px;overflow:hidden}
-.chartbox svg{width:100%;height:auto;display:block}
-.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#11182b;color:white;padding:11px 15px;border-radius:10px;font-size:12px;display:none;z-index:99;max-width:90vw}
-.footer{text-align:center;font-size:10px;color:var(--muted);padding:20px 0}
-@media(max-width:850px){.hero,.layout{grid-template-columns:1fr}.side{position:static}.steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:560px){
- main{padding:12px 10px 28px}.topbar{padding:13px 12px;align-items:flex-start}.topcontrols{width:100%}.topcontrols select{flex:1;min-width:0}
- .heromain,.potential{padding:18px}.card{padding:15px}.fields,.metricfields{grid-template-columns:1fr}.steps{gap:4px}
- .step{font-size:10px;padding:8px 1px}.audit{grid-template-columns:1fr;gap:8px}.kpis{grid-template-columns:1fr}
- .action{grid-template-columns:26px minmax(0,1fr)}.actionmeta{grid-column:2;text-align:left}.nav{align-items:stretch;flex-direction:column}.navright{width:100%}.navright .btn{flex:1}
-}
-@media print{
- body{background:white}.topbar,.hero,.stepsbox,.side,.nav,.noprint,.footer{display:none!important}
- main{max-width:none;padding:0}.layout{display:block}.card{border:0;padding:0;box-shadow:none}
- .panel[hidden]{display:block!important}.panel:not(#panel5){display:none!important}
- #panel5{display:block!important}.action,.kpi,.metric,.chartrow{break-inside:avoid}
-}
-</style>
-</head>
-
-<body>
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">B4</div>
-    <div><h1>B4You Growth Desk</h1><p>Encontre melhorias e acompanhe o faturamento.</p></div>
-  </div>
-  <div class="topcontrols">
-    <select id="brandSelect" aria-label="Selecionar marca"></select>
-    <button id="newBrand">+ Nova marca</button>
-    <button id="exportBackup">Backup</button>
-  </div>
-</header>
-
-<main>
-<section class="hero">
-  <div class="heromain">
-    <div class="eyebrow">Um passo por vez</div>
-    <h2>Descubra onde melhorar e quanto isso pode valer.</h2>
-    <p>Preencha os números, escolha as otimizações e gere um relatório visual com oportunidades, prioridades e evolução.</p>
-  </div>
-  <div class="potential">
-    <div class="label">Potencial extra por mês</div>
-    <strong id="heroPotential">Preencha os dados</strong>
-    <small id="heroNote">Usaremos a conversão da página e o faturamento atual para calcular uma estimativa.</small>
-  </div>
-</section>
-
-<section class="stepsbox">
-  <div class="progresstop"><span id="stepName">Etapa 1 · Marca</span><span id="stepCount">1 de 6</span></div>
-  <div class="track"><div id="progress"></div></div>
-  <nav class="steps" aria-label="Etapas">
-    <button class="step active" data-step="0"><b>1</b>Marca</button>
-    <button class="step" data-step="1"><b>2</b>Página</button>
-    <button class="step" data-step="2"><b>3</b>Ofertas extras</button>
-    <button class="step" data-step="3"><b>4</b>Auditoria</button>
-    <button class="step" data-step="4"><b>5</b>Relatório</button>
-    <button class="step" data-step="5"><b>6</b>Evolução</button>
-  </nav>
-</section>
-
-<div class="layout">
-<section class="card">
-
-<!-- ETAPA 1 -->
-<div class="panel" id="panel0">
-  <div class="panelhead">
-    <div class="kicker">Etapa 1 de 6</div>
-    <h2>Qual marca vamos analisar?</h2>
-    <p class="intro">Preencha só o nome e o faturamento mensal de hoje.</p>
-  </div>
-  <div class="fields">
-    <div class="field">
-      <label for="brandName">Nome da marca</label>
-      <input id="brandName" placeholder="Ex.: Marca Alpha">
-    </div>
-    <div class="field">
-      <label for="baseRevenue">Faturamento mensal atual (R$)</label>
-      <div class="money"><span>R$</span><input id="baseRevenue" type="number" min="0" step="100" placeholder="100000"></div>
-      <small>Use os últimos 30 dias ou a média de um mês comum.</small>
-    </div>
-  </div>
-  <div class="hint"><b>Por que precisamos disso?</b>Esse valor será a base para estimar quanto a marca poderia faturar se melhorar os indicadores.</div>
-</div>
-
-<!-- ETAPA 2 -->
-<div class="panel" id="panel1" hidden>
-  <div class="panelhead">
-    <div class="kicker">Etapa 2 de 6</div>
-    <h2>Página e checkout</h2>
-    <p class="intro">Digite o percentual de hoje e a meta desejada. Não sabe algum número? Deixe em branco.</p>
-  </div>
-  <div id="metricsPage" class="metriclist"></div>
-  <div class="hint"><b>Exemplo</b>Se a conversão subir de 2% para 2,5%, a melhora é de 0,5 ponto percentual. O painel calcula isso para você.</div>
-</div>
-
-<!-- ETAPA 3 -->
-<div class="panel" id="panel2" hidden>
-  <div class="panelhead">
-    <div class="kicker">Etapa 3 de 6</div>
-    <h2>Order Bump, Back Redirect e Upsells</h2>
-    <p class="intro">Preencha as taxas atuais e as metas. A receita mensal de cada oferta é opcional, mas ajuda a calcular o potencial em reais.</p>
-  </div>
-  <div id="metricsOffers" class="metriclist"></div>
-  <div class="hint"><b>Importante</b>Quando preencher a receita de uma oferta, informe somente o valor gerado por aquela oferta. Não repita o faturamento total da marca.</div>
-</div>
-
-<!-- ETAPA 4 -->
-<div class="panel" id="panel3" hidden>
-  <div class="panelhead">
-    <div class="kicker">Etapa 4 de 6</div>
-    <h2>O que existe e o que precisa melhorar?</h2>
-    <p class="intro">Escolha uma opção em cada item. O sistema usará essas respostas para sugerir as otimizações.</p>
-  </div>
-  <div id="auditList" class="auditlist"></div>
-  <div class="hint"><b>Não precisa escrever textos longos.</b>Escolha a situação real de cada parte da página e do funil. O plano será montado automaticamente.</div>
-</div>
-
-<!-- ETAPA 5 -->
-<div class="panel" id="panel4" hidden>
-  <div class="panelhead">
-    <div class="kicker">Etapa 5 de 6</div>
-    <h2>Relatório de oportunidades</h2>
-    <p class="intro">Veja quanto a marca pode estar deixando de faturar, onde estão os gargalos e o que fazer primeiro. O relatório muda conforme os números preenchidos.</p>
-  </div>
-
-  <section id="report">
-    <div class="fields">
-      <div class="field"><label>Marca</label><div class="hint" style="margin:0" id="reportBrand">—</div></div>
-      <div class="field"><label>Data do relatório</label><div class="hint" style="margin:0" id="reportDate">—</div></div>
-    </div>
-
-    <div class="kpis">
-      <div class="kpi"><span>Faturamento mensal atual</span><strong id="rBase">—</strong><small>Valor informado na primeira etapa.</small></div>
-      <div class="kpi highlight"><span>Dinheiro que pode estar ficando na mesa</span><strong id="rPotential">—</strong><small id="rPotentialNote">Preencha a conversão atual e a meta da página.</small></div>
-      <div class="kpi"><span>Faturamento mensal estimado na meta</span><strong id="rTargetRevenue">—</strong><small>Estimativa baseada na conversão da página.</small></div>
-    </div>
-    <div class="kpis">
-      <div class="kpi"><span>Oportunidade anual estimada</span><strong id="rAnnual">—</strong><small>Potencial mensal da página multiplicado por 12.</small></div>
-      <div class="kpi"><span>Diferença na conversão da página</span><strong id="rPageGap">—</strong><small>Meta menos percentual atual.</small></div>
-      <div class="kpi"><span>Otimizações selecionadas</span><strong id="rActionCount">0</strong><small id="rActionCountNote">Ações propostas para executar.</small></div>
-    </div>
-
-    <h3 class="sectiontitle">1. Onde está a oportunidade?</h3>
-    <p class="sectionnote">A barra roxa mostra a taxa atual. A barra verde mostra a meta desejada.</p>
-    <div id="rateChart" class="chartlist"><div class="empty">Preencha as taxas para ver o gráfico.</div></div>
-
-    <h3 class="sectiontitle">2. Quanto cada melhoria pode representar?</h3>
-    <p class="sectionnote">As ofertas extras são calculadas separadamente, pois sua receita pode já fazer parte do faturamento total.</p>
-    <div id="opportunityTable" class="tablewrap"><div class="empty">Os valores aparecerão quando houver dados suficientes.</div></div>
-    <div id="reportWarnings"></div>
-
-    <h3 class="sectiontitle">3. Plano de ação</h3>
-    <p class="sectionnote">Comece pelas ações de maior prioridade. Faça uma mudança por vez e meça o resultado.</p>
-    <div id="reportTasks" class="tasklist"><div class="empty">As sugestões aparecem com base nos números e na auditoria.</div></div>
-
-    <div class="hint"><b>Como ler o dinheiro que está ficando na mesa</b>O valor principal usa a melhoria da conversão da página, mantendo as outras condições iguais. As ofertas extras aparecem separadas para não contar a mesma receita duas vezes. É uma estimativa, não uma garantia.</div>
-
-    <div class="noprint" style="margin-top:15px"><button id="printReport" class="btn primary">Imprimir ou salvar relatório em PDF</button></div>
-  </section>
-</div>
-
-<!-- ETAPA 6 -->
-<div class="panel" id="panel5" hidden>
-  <div class="panelhead">
-    <div class="kicker">Etapa 6 de 6</div>
-    <h2>O que mudou depois das otimizações?</h2>
-    <p class="intro">Quando tiver novos números, registre o faturamento e as taxas. O gráfico mostrará a evolução real da marca.</p>
-  </div>
-  <div class="fields">
-    <div class="field">
-      <label for="afterRevenue">Faturamento mensal depois das mudanças (R$)</label>
-      <div class="money"><span>R$</span><input id="afterRevenue" type="number" min="0" step="100" placeholder="120000"></div>
-      <small>Compare períodos iguais: por exemplo, 30 dias antes e 30 dias depois.</small>
-    </div>
-    <div class="field">
-      <label for="afterDate">Data deste resultado</label>
-      <input id="afterDate" type="date">
-    </div>
-  </div>
-  <h3 class="sectiontitle">Taxas depois das otimizações (%)</h3>
-  <p class="sectionnote">Se ainda não sabe o novo valor, deixe em branco.</p>
-  <div id="afterMetrics" class="metriclist"></div>
-  <button id="saveResult" class="btn primary" style="margin-top:13px">Salvar resultado deste período</button>
-
-  <div class="kpis" style="margin-top:22px">
-    <div class="kpi"><span>Faturamento inicial</span><strong id="evoBase">—</strong><small>Antes das otimizações.</small></div>
-    <div class="kpi"><span>Último faturamento registrado</span><strong id="evoNow">—</strong><small>Resultado mais recente.</small></div>
-    <div class="kpi highlight"><span>Diferença real de faturamento</span><strong id="evoDiff">—</strong><small id="evoPct">Salve o primeiro resultado.</small></div>
-  </div>
-  <h3 class="sectiontitle">Gráfico de evolução do faturamento</h3>
-  <div id="evoChart" class="chartbox"><div class="empty">Salve um resultado para começar o gráfico.</div></div>
-  <h3 class="sectiontitle">Histórico de resultados</h3>
-  <div id="evoTable"></div>
-  <h3 class="sectiontitle">Evolução dos indicadores</h3>
-  <div id="evoMetrics" class="metriclist"></div>
-  <div class="noprint" style="margin-top:15px"><button id="printEvolution" class="btn">Imprimir evolução / salvar PDF</button></div>
-</div>
-
-<div class="nav">
-  <span class="autosave" id="saveStatus">Salvo automaticamente</span>
-  <div class="navright"><button class="btn" id="prev" disabled>Voltar</button><button class="btn primary" id="next">Continuar</button></div>
-</div>
-</section>
-
-<aside class="side">
-  <h3>Resumo da marca</h3>
-  <div class="sidebrand" id="sideBrand">Nova marca</div>
-  <div class="track" style="margin-top:10px"><div id="sideProgress"></div></div>
-  <div class="sideitem"><span>Faturamento atual</span><strong id="sideRevenue">—</strong></div>
-  <div class="sideitem"><span>Taxas preenchidas</span><strong id="sideMetrics">0 de 8</strong></div>
-  <div class="sideitem"><span>Ações no plano</span><strong id="sideTasks">0</strong></div>
-  <small>Os dados ficam salvos neste navegador. Use “Backup” para guardar uma cópia em arquivo.</small>
-</aside>
-</div>
-<div class="footer">B4You Growth Desk · Preencha somente dados reais. As previsões são estimativas.</div>
-</main>
-<div id="toast" class="toast"></div>
-
-<script>
-(function(){
-"use strict";
-const KEY="b4you_growth_report_v1";
+<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#11182b"><title>B4You Growth Desk — Relatório de otimização</title><style>:root{--bg:#f4f6fb;--card:#fff;--ink:#182139;--muted:#64718a;--line:#e0e6f0;--purple:#5CEBD4;--purpleLight:#e8fbf7;--green:#13815c;--greenLight:#e5f7ef;--orange:#a45e08;--orangeLight:#fff3dc;--red:#b73747;--redLight:#fff0f1;--navy:#11182b;--radius:16px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #5CEBD4;outline-offset:2px}[hidden]{display:none!important}.topbar{background:var(--navy);color:#fff;padding:14px max(16px,calc((100vw - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px;min-width:0}.brand-logo{width:min(180px,32vw);max-height:46px;object-fit:contain;object-position:left center}.brand-label{border-left:1px solid #4b566e;padding-left:12px;min-width:0}.brand-label strong{display:block;font-size:16px;line-height:1.3}.brand-label small{color:#c3cce0;font-size:12px}.topcontrols{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.topcontrols select,.topcontrols button{background:#202b43;color:white;border:1px solid #46536d;border-radius:9px;padding:9px 12px;font-size:13px}.topcontrols select{max-width:190px}main{max-width:1180px;margin:auto;padding:22px 17px 42px}.hero{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:15px;margin-bottom:16px}.heromain,.potential,.stepsbox,.card,.side{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}.heromain{padding:25px;background:linear-gradient(120deg,#fff,#e8fbf7)}.eyebrow{display:inline-flex;align-items:center;background:var(--purple);color:#101b35;padding:5px 9px;border-radius:6px;font-size:12px;text-transform:uppercase;letter-spacing:1.1px;font-weight:900}.heromain h1{font-size:clamp(29px,3.5vw,40px);letter-spacing:-1.1px;line-height:1.18;margin:8px 0 10px}.heromain p{color:var(--muted);margin:0;font-size:16px;max-width:680px;line-height:1.7}.potential{padding:22px;background:var(--navy);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:3px}.potential .label{font-size:14px;color:#cad3e5;font-weight:750}.potential strong{display:block;font-size:clamp(27px,3.2vw,36px);line-height:1.25;color:#5CEBD4;overflow-wrap:anywhere;margin:7px 0}.potential small{color:#cad3e5;font-size:13px;line-height:1.6}.stepsbox{padding:15px 17px;margin-bottom:16px}.progresstop{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);font-weight:800;margin-bottom:9px}.track{height:7px;background:#ebedf4;border-radius:99px;overflow:hidden}.track div{height:100%;background:var(--purple);width:16.7%;transition:width .2s}.steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin-top:13px}.step{border:0;background:#f4f5f9;color:#788197;border-radius:10px;padding:10px 4px;font-size:12px;font-weight:800;min-width:0;line-height:1.4}.step b{display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#e3e6ef;margin:0 auto 5px;font-size:13px}.step.active{background:var(--purple);color:#101b35}.step.active b{background:rgba(16,27,53,.12);color:#101b35}.step.done b{background:var(--purple);color:#101b35}.step.done{color:var(--green)}.layout{display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:16px;align-items:start}.card{padding:clamp(18px,2.5vw,27px);min-width:0}.side{padding:18px;position:sticky;top:14px}.side h3{font-size:16px;margin:0 0 12px}.sidebrand{font-weight:900;font-size:19px;overflow-wrap:anywhere;line-height:1.35}.sideitem{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.5}.sideitem span{color:var(--muted)}.sideitem strong{text-align:right}.side small{display:block;color:var(--muted);font-size:12px;line-height:1.65;margin-top:13px}.panel[hidden]{display:none}.panelhead{margin-bottom:21px}.kicker{display:inline-flex;align-items:center;background:var(--purple);color:#101b35;padding:5px 9px;border-radius:6px;font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:900}.panel h2{font-size:clamp(25px,2.8vw,31px);letter-spacing:-.6px;line-height:1.25;margin:6px 0}.intro{margin:0;color:var(--muted);line-height:1.7;font-size:16px;max-width:720px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{min-width:0}.field label{display:block;font-size:14px;font-weight:850;margin-bottom:6px;line-height:1.5}.field small{display:block;color:var(--muted);font-size:12px;margin-top:6px;line-height:1.6}.field input,.field select{width:100%;border:1px solid #d5ddeb;background:#fff;border-radius:10px;padding:12px 13px;min-width:0;color:var(--ink);font-size:16px;min-height:48px}.money{display:flex;align-items:center;border:1px solid #d5ddeb;border-radius:10px;overflow:hidden}.money span,.percent span{padding:0 12px;align-self:stretch;display:flex;align-items:center;background:#f4f5fa;color:var(--muted);font-weight:850;font-size:14px}.money input,.percent input{border:0;border-radius:0;min-width:0}.hint{background:#5CEBD4;color:#101b35;padding:14px 16px;border-radius:11px;font-size:14px;line-height:1.7;margin-top:17px}.hint b{display:block;margin-bottom:3px;color:#101b35}.metriclist,.auditlist,.tasklist{display:grid;gap:12px}.metric{border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0;background:#fff}.mtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:12px}.mname{font-weight:900;font-size:16px;line-height:1.45}.mdesc{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.6}.tag{background:var(--purple);color:#101b35;border-radius:7px;padding:5px 8px;font-size:11px;font-weight:900;white-space:nowrap}.metricfields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.metricfields label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:5px}.percent{display:flex;align-items:center;border:1px solid #d5ddeb;border-radius:10px;overflow:hidden}.percent input{width:100%;border:0;padding:11px 12px;min-width:0;font-size:16px;min-height:46px}.mfoot{font-size:12px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px solid #eef0f5;line-height:1.55}.gapup{color:var(--orange);font-weight:900}.gapok{color:var(--green);font-weight:900}.pricefield{margin-top:13px;padding-top:12px;border-top:1px dashed var(--line)}.pricefield label{display:block;font-size:13px;font-weight:850;margin-bottom:5px}.pricefield small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:5px}.audit{display:grid;grid-template-columns:minmax(0,1fr) 195px;gap:13px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:11px}.auditname{font-size:15px;font-weight:900;line-height:1.45}.auditdesc{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.55}.audit select{width:100%;border:1px solid #d5ddeb;border-radius:9px;padding:10px;background:#fff;min-width:0;font-size:13px;min-height:44px}.sectiontitle{font-size:19px;margin:23px 0 7px;font-weight:900;line-height:1.4}.sectionnote{font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.65}.btn{border:1px solid #d5ddeb;border-radius:10px;padding:12px 15px;background:white;color:var(--ink);font-size:13px;font-weight:850;min-height:45px}.btn.primary{background:var(--purple);border-color:var(--purple);color:#101b35}.btn:disabled{opacity:.4;cursor:not-allowed}.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);margin-top:23px;padding-top:17px}.navright{display:flex;gap:8px}.autosave{font-size:12px;color:var(--muted)}.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:15px 0}.kpi{border:1px solid var(--line);border-radius:12px;padding:15px;min-width:0;background:#fff}.kpi span{font-size:13px;color:var(--muted);display:block;line-height:1.5}.kpi strong{display:block;font-size:clamp(21px,2.3vw,29px);letter-spacing:-.5px;margin:7px 0;overflow-wrap:anywhere;line-height:1.3}.kpi small{font-size:11px;color:var(--muted);line-height:1.55;display:block}.kpi.highlight{background:var(--purple);border-color:var(--purple)}.kpi.highlight span,.kpi.highlight small{color:#101b35}.kpi.highlight strong{color:#101b35}.chartlist{display:grid;gap:10px}.chartrow{border:1px solid var(--line);border-radius:11px;padding:13px}.charttop{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:9px}.chartname{font-weight:900;font-size:14px}.chartgap{font-size:12px;font-weight:900;color:var(--orange);text-align:right}.chartgap.ok{color:var(--green)}.barline{display:grid;grid-template-columns:48px minmax(50px,1fr) 54px;gap:8px;align-items:center;margin-top:7px;font-size:12px;color:var(--muted)}.bartrack{height:9px;background:#eef0f6;border-radius:99px;overflow:hidden}.barfill{height:100%;background:#5CEBD4;border-radius:99px}.barfill.target{background:#14815d}.barline b{text-align:right;font-size:12px;color:var(--ink)}.moneybars{display:grid;gap:11px}.moneyrow{display:grid;grid-template-columns:minmax(120px,180px) minmax(65px,1fr) minmax(90px,130px);align-items:center;gap:10px;font-size:12px}.moneyrowname{font-weight:800;line-height:1.4}.moneybartrack{height:13px;background:#eef0f6;border-radius:99px;overflow:hidden}.moneybarfill{height:100%;background:var(--green);border-radius:99px}.moneybarfill.negative{background:var(--red)}.moneyval{text-align:right;font-weight:900;white-space:nowrap}.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px}.reporttable{width:100%;border-collapse:collapse;font-size:12px;min-width:710px}.reporttable th,.reporttable td{text-align:left;padding:12px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;line-height:1.5}.reporttable th{background:#f6f7fb;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}.reporttable tr:last-child td{border-bottom:0}.action{display:grid;grid-template-columns:28px minmax(0,1fr) 140px;gap:11px;align-items:start;border:1px solid var(--line);border-radius:11px;padding:13px;break-inside:avoid}.actionnum{width:28px;height:28px;display:grid;place-items:center;background:var(--purple);color:#101b35;border-radius:8px;font-weight:900}.action h4{font-size:14px;margin:0;line-height:1.45}.action p{font-size:12px;color:var(--muted);line-height:1.6;margin:5px 0 0}.actionmeta{text-align:right;font-size:12px;color:var(--muted)}.priority{display:inline-block;border-radius:6px;padding:5px 7px;font-size:11px;font-weight:900}.high{background:var(--redLight);color:var(--red)}.medium{background:var(--orangeLight);color:var(--orange)}.low{background:#eef0f6;color:var(--muted)}.action select{display:block;width:100%;margin-top:7px;padding:8px;border:1px solid #d5ddeb;border-radius:8px;background:white;font-size:12px}.empty{border:1px dashed #ccd4e4;border-radius:11px;padding:22px 16px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}.empty strong{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}.warning{background:var(--orangeLight);color:#80530b;border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.65;margin-top:10px}.report-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;margin-bottom:15px}.report-head h2{margin:5px 0 7px}.report-head p{margin:0;color:var(--muted);font-size:14px;line-height:1.65}.reportmeta{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.reportpill{background:#f0f2f8;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:800}.reportfoot{border-top:1px solid var(--line);margin-top:20px;padding-top:12px;color:var(--muted);font-size:11px;line-height:1.65}.historytable{width:100%;border-collapse:collapse;font-size:12px}.historytable th,.historytable td{padding:10px;border-bottom:1px solid #edf0f6;text-align:left;line-height:1.5}.historytable th{font-size:11px;color:var(--muted);background:#f7f8fc}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--navy);color:white;padding:12px 16px;border-radius:10px;font-size:13px;display:none;z-index:99;max-width:90vw;box-shadow:0 5px 24px #0002}.footer{text-align:center;font-size:12px;color:var(--muted);padding:20px 0}[hidden]{display:none!important}@media(max-width:900px){.hero,.layout{grid-template-columns:1fr}.side{position:static}.steps{grid-template-columns:repeat(3,minmax(0,1fr))}.potential{min-height:150px}}@media(max-width:600px){main{padding:12px 10px 28px}.topbar{padding:13px 12px;align-items:flex-start}.brand-logo{width:135px}.brand-label strong{font-size:14px}.topcontrols{width:100%}.topcontrols select{flex:1;min-width:0}.heromain,.potential{padding:18px}.card{padding:15px}.fields,.metricfields{grid-template-columns:1fr}.steps{gap:4px}.step{font-size:11px;padding:9px 2px}.panel h2{font-size:25px}.intro{font-size:15px}.audit{grid-template-columns:1fr;gap:8px}.kpis{grid-template-columns:1fr}.action{grid-template-columns:28px minmax(0,1fr)}.actionmeta{grid-column:2;text-align:left}.moneyrow{grid-template-columns:1fr minmax(45px,1fr);gap:7px}.moneybartrack{grid-column:1/-1;grid-row:2}.moneyval{text-align:right}.nav{align-items:stretch;flex-direction:column}.navright{width:100%}.navright .btn{flex:1}.autosave{display:none}}@media print{body{background:white}.topbar,.hero,.stepsbox,.side,.nav,.noprint,.footer{display:none!important}main{max-width:none;padding:0}.layout{display:block}.card{border:0;padding:0;box-shadow:none}.panel[hidden]{display:none!important}#panel5{display:block!important}.report-shell,.evolution-shell{border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}.report-head button,.noprint{display:none!important}.action,.kpi,.metric,.chartrow{break-inside:avoid}.reporttable tr{break-inside:avoid}.reportfoot{font-size:9px}}</style></head><body><header class="topbar"><div class="brand"><img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABkCAMAAAAL3/3yAAAAYFBMVEVg89r///////////////9s8+tf6tBk5c9n8LIG/v4//7+S47c/v79msrJ//38A/39/f3//sWMAf38A/wD/f39/v3+qqlWqqqqF3cf/AAD/f///qqoAAAD///9b6tP///+Kh739AAAAIHRSTlP2oF4u0A6dWgkBBAoEAwICAgMCAQMEAwMXAQIDAP7+BJyB+LIAAAfwSURBVHja7Z1rg6soDIaVy1Sddmb27Nk7lv//L1dtp0pIIGCt2h7m21SrPoYQ3gRamJXb0ei3d7OPVqx8fW2q4vzT1L9gxVttdFEU779gsezqUPyCxbWrjtV5R7As2Ra/djOwOj+HZS0Msber8/n83JZ1J17HK6s9wVLcVg5NCDvwmnvd32+s9gSrTW5KyJ7XvC6ob6yeG1bXSjHPujpWb9929fSwevOaYVz1x43VC1jWYF02l5b90bF6LVitknm0vuqpXb0IrLbNoqXNXw6rV4GVQ0ubymX1MrBUcoB6Mu+Fy+plYLVlomn18hVg9TqwWpFEq0JYdbReBVZSR9S91Oez2iusbu43tBJpaq5pNSirc3H40maPsEQwmJQlalp8uzqjrMyn2Scsa4OaDYKLGz6QdrWTPohZlg2KgcaIzH5Yk6wa84ywLkKWyIoerhKy59v3xCoVVk+rhE6LQasyh/MZZVWb54XV0ZLAtBiwmlHqc1hpc1zouRbJHiTDMp5pxWHRrJr4o3KZQOdKHE1+A+MaObBE2nBYH1NZzbWpIcyR8hIyyu924THHvpaHNZXbAStNXqGPgS9Nht65seOB14FmCHAEHkGrsk+3jF/YXWjMx+AdxBo55mxyYMkUWBO5HbKqOK8jNNj6B3YgrFDBqb8c9XDHo5CwxkOWhvVJsHqjWfWPrFiDrfOw/W30caDi6+HT89X6sD5rgtXJaGZPF2Q/dO6kHFjZMkUP3xasL/MvzuqPECufAofpMGqVSQrvpmD5EvKV1Xv9wQ9PqH5op721P4rNqjv6MmRuCNaJYmXq6DxBxO/JOajEZmIhv9XTegQsZuhAs9LRaYKxcREIundvahFVeB8AywpWBI9LyD2rKj4fdEDgLh4C9WYWrZoIlwpTeB9hWazpzpFgdTCaMXdmuHjo3oF3GOLPgHIpzANgdW+EozocSflKs3QG6LwZRwgo+cIZplRA4V0eFnRZJc6qmieLenYTsz1rlOtH3b47AJviHYbPhWF5YyEKqyHSOHypz/VIKCzg1Wz0Mdx7F0vDsj4rbDBs7iAhe1OZoHt3H4rKzznfWc6HZSMZC8HISdN2lSCLwigqJcgqychM3hVW2LJYyR2G3F7HFUzfdMJBluGEsdPvXNCyei0NE4n8l1gTrKouSk0S8UKhltvrDBgMLQ1LUbAyJJoWlCgzJ1nOOMiQRSs9tr8rbZNDLc+QeLNJY+4Ka25diCbsapqagBIXUesQCLW8OTQnZBoefUVYkNVQ3V6ci7AsOsAqrqsriqGH1mmhFiKRMmGVq8GCrMjUROXIV55lUbAsFQ34cYUDy2wPlleAe01NFAiryqTDAkgmsBCMG4dVwluy2qnYHmUGOA6yYVGhFtJBt25ZpXWScJaS2ysoIfNhES7e+b/cBaxham8nVTJMVmxYlIvHgortw7qqsxd/Rciif5oPkw9LYrNpN1ydBUs8Ms660fphKLm9Ntmw8Nm0KzDY/cCa+F3Ut6NSXwosxMUT/9wBrNGV+LAIVkmwIkbUJuRL7w5rrDmBbahhDs0O/cUAlITMh4W5J9yRrQIrogQglQTfpuWtMjmYY21mw/IGPnyIXAWWjah/VlDLBoqCKyGnwPJCKiL4WseybKxQTBKmBWAFJOQEWL43JyRRlkQThCUfkd35vmMHVu/bx1OqU/c3Nn2CsE7HycfdsZp28YQmuE1YhipXBrB0qEwGrGT9yRZMycT+VmHBLGuLwrpZljX6AJqGXdY7YOyXXrfDRS4uLEXCEkvA8k1LBmGdLjsZOc0TcUCbdGLPxSvUGBhGgmnwy8OCI6KIwjqntb54hEr2SbZqw8nuRCsM51vWg2FNx19LpHxYlZV+spFRfjIXllweVkPlkYkkhgNLGUZFF4TVognM+bDsg2GJ+PrszFoH2wJ6K8PS82FZxj4JzjjgV9EYr4pGwmzjIJQj6eVdwfKHX6yvIfVZcGWPU5+rLmkOAYRypGRhb7BkPA+XU/mHPIqEVQtTqWUPsEAXIyLPYE2pX6bhF3fH2z5gIS6+9OtqkquVsenIE8DyH8mPpVKs5JY7SCmef0CcdQdYWBfzo6L0FRapiJeP4Ku7wOIsYwexQXztTirie8LCp8IVMpEuohPpJtzz8bly6qqwlJOyYSnspMPbtI31o7Un0byBkoiiPx5INDbsj4iqUdZ6Q2Fh0ME46V4LnTK2HAPiH6ccV7Luk7GS1XpZxfhJQxgiZMYKC88jXt5U1RzH1kx10vomGDdD0w2AVR319ZNv4Rnr+2V8vdDFTrr4E10jreAa6elJ+MLqYS9b0YWqlwRW6qIBbGBK3nGMn7Ag60FDd3ib6UxW3t/mPDZ00jRT6hZSJ29VgG9Gk7o7G4TF2z/L0aJk7DZt2ge3h8PPueWRExcNIJXwIhVWlQXLSQxyMgXpO4bETknKSFMbaD0AljOsCLP8ZvVYI3ZmwxqxN1v6nefB4mRvHgsro6VviJMBy5nwliuxMvcrOVoWFid5s3lYKmOnpSxY5axLbgNWzvbK6aEDc1eMjcMSeVtRp8Mq572fLcDK8x7JsGAm2ewRVqan9WD9FoW1Bfc+C1aZ2x+O6bDU+kHWHFgzfsQiFdZG3Hs2LCVs/u55V1hF8S2S/heDtQn3ngdLlfN+eKc22m3/8N27suux4sGa/qaTGH6iyDzwnrfi3jtYYG0A65fDZpOyjmF9pETva8L6H+WmQtfZB5cwAAAAAElFTkSuQmCC" alt="Logo B4You"><div class="brand-label"><strong>Growth Desk</strong><small>Otimização de faturamento</small></div></div><div class="topcontrols"><select id="brandSelect" aria-label="Selecionar marca"></select><button id="newBrand">+ Nova marca</button><button id="backup">Exportar backup</button><input id="restore" type="file" accept="application/json" hidden><button type="button" id="restoreLabel">Restaurar backup</button></div></header><main><section class="hero"><div class="heromain"><div class="eyebrow">Um passo por vez</div><h1>Descubra onde melhorar e quanto isso pode valer.</h1><p>Preencha números, veja as oportunidades em reais e termine com um relatório visual: o que melhorar, quanto pode crescer e como medir o resultado depois.</p></div><div class="potential"><div class="label">Potencial adicional estimado por mês</div><strong id="heroPotential">Preencha os dados</strong><small id="heroNote">Informe visitas, preço e taxas para calcular uma estimativa.</small></div></section><section class="stepsbox"><div class="progresstop"><span id="stepName">Etapa 1 · Marca e números</span><span id="stepCount">1 de 6</span></div><div class="track"><div id="progress"></div></div><nav class="steps"><button class="step active" data-step="0"><b>1</b>Marca</button><button class="step" data-step="1"><b>2</b>Página</button><button class="step" data-step="2"><b>3</b>Ofertas</button><button class="step" data-step="3"><b>4</b>Auditoria</button><button class="step" data-step="4"><b>5</b>Ações</button><button class="step" data-step="5"><b>6</b>Relatório final</button></nav></section><div class="layout"><section class="card"><div class="panel" id="panel0"><div class="panelhead"><div class="kicker">Etapa 1 de 6 · Dados iniciais</div><h2>Qual marca vamos analisar?</h2><p class="intro">Preencha o nome e os números básicos. Não precisa escrever uma descrição da marca.</p></div><div class="fields"><div class="field"><label for="brandName">Nome da marca</label><input id="brandName" placeholder="Ex.: Marca Alpha" autocomplete="organization"></div><div class="field"><label for="baseRevenue">Faturamento total mensal atual (R$)</label><div class="money"><span>R$</span><input id="baseRevenue" type="number" min="0" step="100" placeholder="100000"></div><small>O faturamento real dos últimos 30 dias ou de um mês típico.</small></div><div class="field"><label for="pageVisits">Visitas à página por mês</label><input id="pageVisits" type="number" min="0" step="100" placeholder="Ex.: 50000"><small>Quantidade de visitas, não quantidade de vendas.</small></div><div class="field"><label for="mainPrice">Preço do produto principal (R$)</label><div class="money"><span>R$</span><input id="mainPrice" type="number" min="0" step="1" placeholder="Ex.: 197"></div><small>Use o preço médio pago pelo produto principal.</small></div></div><div class="hint"><b>Por que precisamos desses números?</b>As visitas, as taxas e os preços permitem estimar quanto uma melhoria pode acrescentar ao faturamento mensal. Os resultados serão estimativas, não promessas.</div></div><div class="panel" id="panel1" hidden><div class="panelhead"><div class="kicker">Etapa 2 de 6 · Conversões principais</div><h2>Página e checkout</h2><p class="intro">Digite a taxa atual e a meta desejada. Se não souber um número, pode deixar em branco; o relatório mostrará o que falta.</p></div><div class="metriclist" id="metricsPage"></div><div class="hint"><b>Como funciona?</b>A taxa da página mede quantas visitas avançam para o checkout. A taxa do checkout mede quantas pessoas concluem a compra. Não incluímos CTR.</div></div><div class="panel" id="panel2" hidden><div class="panelhead"><div class="kicker">Etapa 3 de 6 · Ofertas extras</div><h2>Order Bump, Back Redirect e Upsells</h2><p class="intro">Para calcular dinheiro, precisamos da taxa atual, da meta e do preço de cada oferta. Preencha os preços unitários abaixo.</p></div><div class="metriclist" id="metricsOffers"></div><div class="hint"><b>Importante</b>O One-Click é acompanhado como indicador de funcionamento. Não somamos uma segunda receita para ele, porque isso poderia contar o mesmo upsell duas vezes.</div></div><div class="panel" id="panel3" hidden><div class="panelhead"><div class="kicker">Etapa 4 de 6 · Conferir a página</div><h2>O que existe e o que precisa melhorar?</h2><p class="intro">Escolha uma opção. O sistema transforma as respostas em sugestões de otimização.</p></div><div id="auditList" class="auditlist"></div><div class="hint"><b>Sem textos longos.</b>Marque o que está bom, o que precisa melhorar e o que ainda não existe.</div></div><div class="panel" id="panel4" hidden><div class="panelhead"><div class="kicker">Etapa 5 de 6 · Plano de ação</div><h2>O que vamos fazer primeiro?</h2><p class="intro">As sugestões aparecem a partir dos indicadores e da auditoria. Selecione o que será feito e atualize o andamento.</p></div><div class="kpis"><div class="kpi"><span>Oportunidades encontradas</span><strong id="actionFound">0</strong><small>Taxas abaixo da meta ou itens a melhorar.</small></div><div class="kpi"><span>Ações escolhidas</span><strong id="actionSelected">0</strong><small>Entraram no plano.</small></div><div class="kpi"><span>Ações concluídas</span><strong id="actionDone">0</strong><small>Marque como concluídas quando terminar.</small></div></div><div class="tasklist" id="actionList"></div><div class="hint"><b>Uma ação por vez.</b>Depois de aplicar uma mudança, registre o novo faturamento e as taxas para ver o impacto real.</div></div><div class="panel" id="panel5" hidden><section id="finalReport" class="report-shell"><div class="report-head"><div><div class="kicker">Etapa 6 de 6 · Relatório final</div><h2>Relatório de oportunidades de faturamento</h2><p>Resumo da marca, dinheiro que pode estar ficando na mesa, gráficos das taxas, potencial de cada oferta e plano de ação.</p></div><div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="printReport">Salvar relatório em PDF</button><button class="btn" id="exportCsv">Exportar CSV</button></div></div><div class="reportmeta"><span class="reportpill" id="reportBrand">Marca: —</span><span class="reportpill" id="reportDate">Gerado em: —</span><span class="reportpill" id="reportCompleteness">Preencha os números</span></div><div class="kpis"><div class="kpi"><span>Faturamento atual por mês</span><strong id="rCurrentRevenue">—</strong><small>Valor real informado na etapa 1.</small></div><div class="kpi highlight"><span>Dinheiro estimado na mesa por mês</span><strong id="rPotential">—</strong><small id="rPotentialNote">Preencha visitas, preços e taxas.</small></div><div class="kpi"><span>Faturamento mensal projetado</span><strong id="rProjectedRevenue">—</strong><small>Faturamento atual + variação estimada.</small></div></div><div class="kpis"><div class="kpi"><span>Oportunidade estimada em 12 meses</span><strong id="rAnnual">—</strong><small>Simulação mantendo as premissas iguais.</small></div><div class="kpi"><span>Maior oportunidade identificada</span><strong id="rTopStage">—</strong><small id="rTopStageAmount">Aguardando números.</small></div><div class="kpi"><span>Ações prioritárias</span><strong id="rActions">0</strong><small id="rActionsNote">No plano de ação.</small></div></div><h3 class="sectiontitle">1. Taxa atual versus meta</h3><p class="sectionnote">Roxo = taxa atual. Verde = meta desejada. A distância mostra quanto falta para alcançar a meta.</p><div id="rateChart" class="chartlist"><div class="empty">Preencha as taxas para ver o gráfico.</div></div><h3 class="sectiontitle">2. Quanto cada melhoria pode acrescentar?</h3><p class="sectionnote">O potencial é calculado por etapa usando visitas, taxas e preço unitário. Onde faltar informação, o relatório avisa.</p><div id="moneyChart" class="moneybars"><div class="empty">Preencha as taxas e os preços para estimar o potencial em reais.</div></div><div style="height:12px"></div><div id="opportunityTable" class="tablewrap"><div class="empty">O detalhamento será preenchido automaticamente.</div></div><div id="reportWarnings"></div><h3 class="sectiontitle">3. Plano de ação recomendado</h3><p class="sectionnote">Priorize ações de impacto alto. Teste uma mudança de cada vez e registre o que aconteceu.</p><div id="reportTasks" class="tasklist"><div class="empty">Marque as melhorias na etapa anterior para montar o plano.</div></div><div class="reportfoot"><b>Como ler os números:</b> o cálculo do produto principal usa visitas mensais × taxa da página × taxa do checkout × preço do produto. O potencial de cada oferta extra usa o público estimado que chega à etapa × taxa de aceitação × preço unitário. Para cada upsell, considera-se que os compradores principais veem a oferta; ajuste as estimativas se o seu fluxo tiver outro público. O Back Redirect usa como aproximação as visitas que não avançam ao checkout. Para cada upsell, considera-se que os compradores chegam à oferta; ajuste se o seu fluxo for diferente. Cada potencial é a diferença entre a situação de hoje e a meta. Os valores estimam faturamento bruto adicional, não lucro líquido: não descontam custo do produto, impostos, taxas de plataforma, reembolsos ou outras despesas; não são garantia de resultado. O One-Click aparece como verificação técnica e não é somado como uma oferta separada, para reduzir dupla contagem.</div></section><section id="evolutionSection" class="evolution-shell" style="margin-top:28px"><h2>Depois das otimizações: o que mudou?</h2><p class="intro">Quando tiver dados novos, registre o faturamento e as taxas reais. O gráfico e a comparação serão atualizados.</p><div class="fields" style="margin-top:16px"><div class="field"><label for="afterRevenue">Faturamento mensal depois das mudanças (R$)</label><div class="money"><span>R$</span><input id="afterRevenue" type="number" min="0" step="100" placeholder="Ex.: 125000"></div></div><div class="field"><label for="afterDate">Data do resultado</label><input id="afterDate" type="date"></div></div><h3 class="sectiontitle">Taxas reais depois das mudanças (%)</h3><div id="afterMetrics" class="metriclist"></div><button class="btn primary" id="saveResult" style="margin-top:13px">Salvar resultado deste período</button><div class="kpis"><div class="kpi"><span>Faturamento inicial</span><strong id="evoBase">—</strong><small>Antes da primeira otimização.</small></div><div class="kpi"><span>Último faturamento salvo</span><strong id="evoNow">—</strong><small>Resultado mais recente.</small></div><div class="kpi highlight"><span>Variação real</span><strong id="evoDelta">—</strong><small id="evoPct">Salve um resultado para comparar.</small></div></div><h3 class="sectiontitle">Gráfico de evolução real</h3><div id="evoChart" class="chartbox"><div class="empty">Salve um resultado depois das otimizações para iniciar o gráfico.</div></div><h3 class="sectiontitle">Histórico salvo</h3><div id="evoTable"></div><h3 class="sectiontitle">Evolução dos indicadores</h3><div id="evoMetrics" class="chartlist"></div><div class="noprint" style="margin-top:14px"><button class="btn" id="printEvolution">Salvar evolução em PDF</button></div></section></div><div class="nav"><span id="saveStatus" class="autosave">Salvando automaticamente</span><div class="navright"><button class="btn" id="prev" disabled>Voltar</button><button class="btn primary" id="next">Continuar</button></div></div></section><aside class="side"><h3>Resumo da marca</h3><div id="sideBrand" class="sidebrand">Nova marca</div><div class="track" style="margin-top:10px"><div id="sideProgress"></div></div><div class="sideitem"><span>Faturamento atual</span><strong id="sideRevenue">—</strong></div><div class="sideitem"><span>Indicadores preenchidos</span><strong id="sideMetrics">0 de 8</strong></div><div class="sideitem"><span>Ações selecionadas</span><strong id="sideTasks">0</strong></div><small>Os dados ficam neste navegador. Exporte um backup para guardar uma cópia ou mover para outro computador.</small></aside></div><div class="footer">B4You Growth Desk · O relatório usa os números preenchidos e separa estimativas de resultados reais.</div></main><div id="toast" class="toast" role="status" aria-live="polite"></div><script>
+(()=>{'use strict';
+const KEY='b4you_growth_report_v3';
 const METRICS=[
- {id:"page",name:"Conversão da página / VSL",area:"Página / VSL",step:1,desc:"Percentual de visitantes que compram."},
- {id:"checkout",name:"Conversão do checkout",area:"Checkout",step:1,desc:"Percentual de pessoas que concluem a compra depois de abrir o checkout."},
- {id:"bump",name:"Order Bump",area:"Order Bump",step:2,desc:"Percentual de compradores que aceitam a oferta extra.",stage:true},
- {id:"back",name:"Back Redirect",area:"Back Redirect",step:2,desc:"Percentual de pessoas que voltam e compram após a tentativa de sair.",stage:true},
- {id:"upsell1",name:"Upsell 1",area:"Upsell 1",step:2,desc:"Percentual de pessoas que aceitam a primeira oferta.",stage:true},
- {id:"upsell2",name:"Upsell 2",area:"Upsell 2",step:2,desc:"Percentual de pessoas que aceitam a segunda oferta.",stage:true},
- {id:"upsell3",name:"Upsell 3",area:"Upsell 3",step:2,desc:"Percentual de pessoas que aceitam a terceira oferta.",stage:true},
- {id:"oneclick",name:"One-Click",area:"One-Click",step:2,desc:"Percentual de pessoas que aceitam a oferta adicional com um clique.",stage:true}
+{id:'page',name:'Conversão da página para checkout',area:'Página / VSL',step:1,desc:'Percentual das visitas à página que avançam para o checkout.'},
+{id:'checkout',name:'Conversão do checkout em compra',area:'Checkout',step:1,desc:'Percentual das visitas ao checkout que concluem a compra.'},
+{id:'bump',name:'Order Bump',area:'Order Bump',step:2,desc:'Percentual dos compradores que aceitam a oferta extra.',price:true},
+{id:'back',name:'Back Redirect',area:'Back Redirect',step:2,desc:'Percentual das pessoas que não avançam e recuperam a compra.',price:true},
+{id:'upsell1',name:'Upsell 1',area:'Upsell 1',step:2,desc:'Percentual das pessoas que veem a oferta e a aceitam.',price:true},
+{id:'upsell2',name:'Upsell 2',area:'Upsell 2',step:2,desc:'Percentual das pessoas que veem a oferta e a aceitam.',price:true},
+{id:'upsell3',name:'Upsell 3',area:'Upsell 3',step:2,desc:'Percentual das pessoas que veem a oferta e a aceitam.',price:true},
+{id:'oneclick',name:'One-Click',area:'One-Click',step:2,desc:'Percentual das ofertas One-Click concluídas com sucesso. Este indicador não é somado de novo ao faturamento.'}
 ];
 const AUDITS=[
- {id:"promise",name:"Promessa e benefício",desc:"A pessoa entende rápido o que está comprando?",area:"Página / VSL",priority:"Alta",rec:"Teste a mensagem inicial, a clareza da oferta e o benefício principal."},
- {id:"proof",name:"Provas e confiança",desc:"Existem provas reais e informações claras?",area:"Página / VSL",priority:"Alta",rec:"Revise provas reais, depoimentos permitidos, dúvidas comuns e clareza da oferta."},
- {id:"mobile",name:"Página no celular",desc:"A página carrega e funciona bem no celular?",area:"Página / VSL",priority:"Alta",rec:"Teste carregamento, leitura, vídeo e botões em celulares."},
- {id:"checkout",name:"Checkout simples",desc:"O preço final e o pagamento estão claros?",area:"Checkout",priority:"Alta",rec:"Verifique erros, etapas desnecessárias, meios de pagamento e clareza do valor total."},
- {id:"bump",name:"Oferta do Order Bump",desc:"A oferta extra combina com a compra principal?",area:"Order Bump",priority:"Alta",rec:"Teste uma oferta complementar relevante, com benefício e preço claros."},
- {id:"back",name:"Recuperação Back Redirect",desc:"O redirecionamento funciona e apresenta a oferta certa?",area:"Back Redirect",priority:"Média",rec:"Confira o funcionamento do redirect e teste a mensagem e a oferta de recuperação."},
- {id:"upsell",name:"Ofertas de Upsell",desc:"As ofertas são úteis, claras e fáceis de aceitar ou recusar?",area:"Upsells",priority:"Alta",rec:"Teste a relevância, o preço e a apresentação dos upsells, uma oferta por vez."},
- {id:"oneclick",name:"Cobrança One-Click",desc:"O preço está claro e a cobrança funciona corretamente?",area:"One-Click",priority:"Alta",rec:"Confira o funcionamento do clique, a clareza do preço e as opções de aceitar ou recusar."},
- {id:"tracking",name:"Tracking dos dados",desc:"Os registros de dados foram testados e conferem?",area:"Tracking",priority:"Alta",rec:"Confirme se eventos e taxas registram corretamente as ações do funil."},
- {id:"leaderboard",name:"Leaderboard / referência",desc:"Existe uma comparação atualizada com ofertas ou marcas semelhantes?",area:"Leaderboard",priority:"Média",rec:"Atualize a referência de desempenho e use-a para definir prioridades realistas."}
+{id:'promise',name:'Promessa e benefício da página',desc:'A oferta fica clara logo no começo?',area:'Página / VSL',priority:'Alta',rec:'Teste a mensagem principal, o benefício e a clareza da oferta.'},
+{id:'proof',name:'Provas e confiança',desc:'Existem provas reais e informações claras?',area:'Página / VSL',priority:'Alta',rec:'Revise provas, dúvidas frequentes e clareza das condições da oferta.'},
+{id:'mobile',name:'Página no celular',desc:'A página carrega e os botões funcionam bem?',area:'Página / VSL',priority:'Alta',rec:'Teste velocidade, leitura, vídeo e botões em celulares.'},
+{id:'checkout',name:'Checkout',desc:'O preço total e o pagamento estão claros?',area:'Checkout',priority:'Alta',rec:'Revise erros, campos desnecessários, meios de pagamento e clareza do preço final.'},
+{id:'bump',name:'Order Bump',desc:'A oferta extra combina com a compra principal?',area:'Order Bump',priority:'Alta',rec:'Teste benefício, preço e relevância do Order Bump.'},
+{id:'back',name:'Back Redirect',desc:'O redirecionamento funciona e apresenta a oferta certa?',area:'Back Redirect',priority:'Média',rec:'Confirme o funcionamento e teste a oferta de recuperação.'},
+{id:'upsells',name:'Upsells 1, 2 e 3',desc:'As ofertas são úteis e fáceis de entender?',area:'Upsells',priority:'Alta',rec:'Teste relevância, preço e apresentação de cada upsell, um por vez.'},
+{id:'oneclick',name:'One-Click',desc:'O fluxo funciona e o preço é claro?',area:'One-Click',priority:'Alta',rec:'Teste o funcionamento da cobrança e a clareza para aceitar ou recusar.'},
+{id:'tracking',name:'Tracking',desc:'Os eventos e os números estão sendo registrados corretamente?',area:'Tracking',priority:'Alta',rec:'Teste os eventos e compare os dados de cada etapa do funil.'},
+{id:'leaderboard',name:'Leaderboard / referência',desc:'Existe uma comparação atualizada com outras ofertas ou marcas?',area:'Leaderboard',priority:'Média',rec:'Atualize o benchmark e use-o para definir metas realistas.'}
 ];
-const STEP_NAMES=["Marca","Página","Ofertas extras","Auditoria","Relatório","Evolução"];
+const STEPS=['Marca e números','Página e checkout','Ofertas e preços','Auditoria','Plano de ação','Relatório final'];
 const $=id=>document.getElementById(id);
-const money=n=>n===null||n===undefined||!Number.isFinite(Number(n))?"—":new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}).format(Number(n));
-const num=v=>v===null||v===undefined||v===""?null:(Number.isFinite(Number(v))?Number(v):null);
-const pct=n=>n===null||n===undefined||!Number.isFinite(Number(n))?"—":Number(n).toLocaleString("pt-BR",{maximumFractionDigits:2})+"%";
-const pp=n=>n===null||n===undefined||!Number.isFinite(Number(n))?"—":(n>0?"+":"")+Number(n).toLocaleString("pt-BR",{maximumFractionDigits:2})+" p.p.";
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num=v=>v===null||v===undefined||v===''?null:(Number.isFinite(Number(v))?Number(v):null);
+const money=v=>v===null||v===undefined||!Number.isFinite(Number(v))?'—':new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(Number(v));
+const pct=v=>v===null||v===undefined||!Number.isFinite(Number(v))?'—':Number(v).toLocaleString('pt-BR',{maximumFractionDigits:2})+'%';
+const pp=v=>v===null||v===undefined||!Number.isFinite(Number(v))?'—':(v>0?'+':'')+Number(v).toLocaleString('pt-BR',{maximumFractionDigits:2})+' p.p.';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today=()=>new Date().toISOString().slice(0,10);
-function newId(){return "m"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
-function emptyBrand(){return {id:newId(),name:"",baseRevenue:"",metrics:Object.fromEntries(METRICS.map(m=>[m.id,{base:"",target:"",latest:"",stageRevenue:""}])),audits:Object.fromEntries(AUDITS.map(a=>[a.id,"Não conferido"])),tasks:[],history:[],baselineSaved:false}}
-function readState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.brands)&&s.brands.length)return s}catch(e){}const b=emptyBrand();return {brands:[b],activeId:b.id,step:0}}
-let state=readState();state.step=Math.max(0,Math.min(5,Number(state.step)||0));
+const uid=()=> 'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function blankBrand(){return{id:uid(),name:'',baseRevenue:'',pageVisits:'',mainPrice:'',metrics:Object.fromEntries(METRICS.map(m=>[m.id,{base:'',target:'',latest:'',price:''}])),audits:Object.fromEntries(AUDITS.map(a=>[a.id,'Não conferido'])),tasks:[],history:[],baselineSaved:false}}
+function normalizeBrand(old){const b=blankBrand();if(!old||typeof old!=='object')return b;b.id=old.id||b.id;b.name=old.name||'';b.baseRevenue=old.baseRevenue??old.revenue??'';b.pageVisits=old.pageVisits??old.monthlyVisitors??'';b.mainPrice=old.mainPrice??'';METRICS.forEach(m=>{const v=old.metrics?.[m.id]||{};b.metrics[m.id]={base:v.base??'',target:v.target??'',latest:v.latest??v.now??'',price:v.price??''}});AUDITS.forEach(a=>b.audits[a.id]=old.audits?.[a.id]||'Não conferido');b.tasks=Array.isArray(old.tasks)?old.tasks:[];b.history=(Array.isArray(old.history)?old.history:(Array.isArray(old.snapshots)?old.snapshots:[])).map(h=>({...h,kind:h.kind==='baseline'?'base':h.kind}));b.baselineSaved=!!old.baselineSaved;return b}
+function readState(){for(const key of [KEY,'b4you_growth_wizard_v1','b4you_growth_report_v1','b4you_growth_wizard_v2']){try{const x=JSON.parse(localStorage.getItem(key));if(x&&Array.isArray(x.brands)&&x.brands.length){const brands=x.brands.map(normalizeBrand);return{brands,activeId:brands.some(b=>b.id===x.activeId)?x.activeId:brands[0].id,step:Math.max(0,Math.min(5,Number(x.step)||0))}}}catch(e){}}const b=blankBrand();return{brands:[b],activeId:b.id,step:0}}
+let state=readState();
 function current(){return state.brands.find(b=>b.id===state.activeId)||state.brands[0]}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state));$("saveStatus").textContent="Salvo automaticamente"}catch(e){$("saveStatus").textContent="Não foi possível salvar no navegador"}}
-function toast(s){$("toast").textContent=s;$("toast").style.display="block";clearTimeout(window._b4toast);window._b4toast=setTimeout(()=>$("toast").style.display="none",2400)}
-function labelBrand(b){return b.name.trim()||"Nova marca"}
-function renderBrands(){const s=$("brandSelect");s.innerHTML=state.brands.map(b=>'<option value="'+esc(b.id)+'">'+esc(labelBrand(b))+'</option>').join("");s.value=state.activeId}
-function syncInputs(){const b=current();$("brandName").value=b.name||"";$("baseRevenue").value=b.baseRevenue??"";METRICS.forEach(m=>{const el=document.querySelector('[data-metric="'+m.id+'"][data-field="base"]');const goal=document.querySelector('[data-metric="'+m.id+'"][data-field="target"]');if(el)el.value=b.metrics[m.id].base??"";if(goal)goal.value=b.metrics[m.id].target??""});AUDITS.forEach(a=>{const el=document.querySelector('[data-audit="'+a.id+'"]');if(el)el.value=b.audits[a.id]||"Não conferido"})}
-function metricCard(m){const b=current(),v=b.metrics[m.id]||{},base=num(v.base),target=num(v.target),gap=base!==null&&target!==null?target-base:null;return '<article class="metric"><div class="mtop"><div><div class="mname">'+esc(m.name)+'</div><div class="mdesc">'+esc(m.desc)+'</div></div><span class="tag">'+esc(m.area)+'</span></div><div class="metricfields"><div><label>Hoje (%)</label><div class="percent"><input type="number" min="0" max="100" step="0.1" data-metric="'+m.id+'" data-field="base" value="'+esc(v.base??"")+'" placeholder="Ex.: 2,5"><span>%</span></div></div><div><label>Meta desejada (%)</label><div class="percent"><input type="number" min="0" max="100" step="0.1" data-metric="'+m.id+'" data-field="target" value="'+esc(v.target??"")+'" placeholder="Ex.: 3,0"><span>%</span></div></div></div>'+(m.stage?'<div class="stageRevenue"><label>Faturamento mensal desta oferta (R$) — opcional</label><div class="money"><span>R$</span><input type="number" min="0" step="100" data-stage-revenue="'+m.id+'" value="'+esc(v.stageRevenue??"")+'" placeholder="Ex.: 15000"></div><small>Informe somente o dinheiro gerado por esta oferta. Não repita o faturamento total da marca.</small></div>':'')+'<div class="mfoot" id="gap-'+m.id+'">'+(gap===null?"Preencha a taxa de hoje e a meta.":gap>0?'<span class="gapup">Faltam '+esc(pp(gap))+' para a meta.</span>':gap===0?'<span class="gapok">Meta atingida.</span>':'<span class="gapok">A taxa atual está acima da meta.</span>')+'</div></article>'}
-function renderMetricSteps(){ $("metricsPage").innerHTML=METRICS.filter(m=>m.step===1).map(metricCard).join("");$("metricsOffers").innerHTML=METRICS.filter(m=>m.step===2).map(metricCard).join("")}
-function renderAudits(){const b=current();$("auditList").innerHTML=AUDITS.map(a=>'<div class="audit"><div><div class="auditname">'+esc(a.name)+'</div><div class="auditdesc">'+esc(a.desc)+'</div></div><select data-audit="'+a.id+'" aria-label="Situação de '+esc(a.name)+'">'+["Não conferido","Está bom","Precisa melhorar","Não existe"].map(x=>'<option '+((b.audits[a.id]||"Não conferido")===x?"selected":"")+'>'+x+'</option>').join("")+'</select></div>').join("")}
-function tasksFromData(){
- const b=current(),old=new Map((b.tasks||[]).map(t=>[t.key,t])),list=[];
- const ideas={
-  page:["Melhorar a conversão da página / VSL","Teste a mensagem inicial, a oferta, as provas e o botão principal.","Alta"],
-  checkout:["Melhorar a conversão do checkout","Revise erros, velocidade, etapas e clareza do preço total.","Alta"],
-  bump:["Otimizar o Order Bump","Teste benefício, preço e relevância da oferta extra.","Alta"],
-  back:["Otimizar o Back Redirect","Confirme o funcionamento e teste a oferta de recuperação.","Média"],
-  upsell1:["Otimizar o Upsell 1","Teste apresentação, benefício e preço da primeira oferta.","Alta"],
-  upsell2:["Otimizar o Upsell 2","Confira se a segunda oferta acrescenta valor sem repetir a anterior.","Média"],
-  upsell3:["Otimizar o Upsell 3","Teste a terceira oferta e confira se ela não prejudica a experiência.","Média"],
-  oneclick:["Otimizar o One-Click","Confira o preço, a cobrança e a facilidade para aceitar ou recusar.","Alta"]
- };
- METRICS.forEach(m=>{const v=b.metrics[m.id]||{},a=num(v.base),t=num(v.target);if(a!==null&&t!==null&&t>a){const z=ideas[m.id]||["Melhorar "+m.name,m.desc,"Média"];list.push({key:"metric_"+m.id,area:m.area,title:z[0],desc:z[1],priority:z[2],reason:"A taxa atual está abaixo da meta",selected:old.get("metric_"+m.id)?.selected??true,status:old.get("metric_"+m.id)?.status||"Pendente"})}});
- AUDITS.forEach(a=>{const status=b.audits[a.id]||"Não conferido";const needs=["Precisa melhorar","Não existe"].includes(status)||(status==="Não conferido"&&["tracking","leaderboard"].includes(a.id));if(!needs)return;const key="audit_"+a.id,prior=old.get(key);list.push({key,area:a.area,title:a.name,desc:a.rec,priority:a.priority,reason:status==="Não existe"?"Ainda não existe":status==="Precisa melhorar"?"Foi marcado para melhorar":"Precisa confirmar se está funcionando",selected:prior?.selected??true,status:prior?.status||"Pendente"})});
- b.tasks=list;return list
-}
-function renderTasks(){const tasks=tasksFromData();$("reportTasks").innerHTML=tasks.length?tasks.map((t,i)=>'<article class="action"><div class="actionnum">'+(i+1)+'</div><div><h4>'+esc(t.title)+'</h4><p>'+esc(t.desc)+'<br><b>Motivo:</b> '+esc(t.reason)+'.</p></div><div class="actionmeta"><span class="priority '+(t.priority==="Alta"?"high":t.priority==="Média"?"medium":"low")+'">'+esc(t.priority)+'</span><select data-task-status="'+esc(t.key)+'">'+["Pendente","Em andamento","Concluído","Não será feita"].map(s=>'<option '+(t.status===s?"selected":"")+'>'+s+'</option>').join("")+'</select><label style="display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:6px"><input type="checkbox" data-task-check="'+esc(t.key)+'" '+(t.selected?"checked":"")+'> Incluir</label></div></article>').join(""):'<div class="empty"><b>Nenhuma melhoria apontada ainda.</b><br>Na etapa Auditoria, marque o que precisa melhorar ou não existe. Você também pode preencher uma meta acima da taxa atual.</div>'}
-function potential(){const b=current(),rev=num(b.baseRevenue),p=b.metrics.page||{},base=num(p.base),target=num(p.target);if(rev===null||rev<=0||base===null||base<=0||target===null||target<0||target<=base)return {extra:0,targetRevenue:rev,valid:rev!==null&&rev>0,rateValid:base!==null&&target!==null,base,target};const projected=rev*(target/base);return {extra:projected-rev,targetRevenue:projected,valid:true,rateValid:true,base,target}}
-function renderSummary(){const b=current(),p=potential();$("sideBrand").textContent=labelBrand(b);$("sideRevenue").textContent=num(b.baseRevenue)===null?"—":money(num(b.baseRevenue));const filled=METRICS.filter(m=>num(b.metrics[m.id].base)!==null).length;$("sideMetrics").textContent=filled+" de "+METRICS.length;$("sideTasks").textContent=(b.tasks||[]).filter(t=>t.selected&&t.status!=="Não será feita").length;$("sideProgress").style.width=(filled/METRICS.length*100)+"%";$("heroPotential").textContent=p.valid&&p.rateValid&&p.extra>0?("+"+money(p.extra)):"Preencha os dados";$("heroNote").textContent=p.valid&&p.rateValid&&p.extra>0?"Estimativa mensal se a conversão da página chegar à meta, mantendo as demais condições iguais.":"Informe o faturamento mensal e uma meta de conversão acima da taxa atual para estimar o potencial."}
-function renderReport(){
- const b=current(),p=potential(),rev=num(b.baseRevenue);
- $("reportBrand").textContent=labelBrand(b);$("reportDate").textContent=new Date().toLocaleDateString("pt-BR");$("rBase").textContent=rev===null?"—":money(rev);
- const mainValid=rev!==null&&rev>0&&p.rateValid&&p.base!==null&&p.base>0&&p.target!==null;
- const mainExtra=mainValid&&p.target>p.base?p.extra:0;
- $("rPotential").textContent=mainValid?money(mainExtra):"Faltam dados";
- $("rPotentialNote").textContent=!mainValid?"Informe faturamento, conversão atual e meta.":mainExtra>0?"Potencial mensal estimado pela melhora da página.":"A meta atual não mostra uma oportunidade positiva.";
- $("rTargetRevenue").textContent=mainValid?money(rev+mainExtra):"—";
- $("rAnnual").textContent=mainValid?money(mainExtra*12):"—";
- $("rPageGap").textContent=p.rateValid&&p.base!==null&&p.target!==null?pp(p.target-p.base):"—";
- const tasks=(b.tasks||[]).filter(t=>t.selected&&t.status!=="Não será feita");
- $("rActionCount").textContent=tasks.length;$("rActionCountNote").textContent=tasks.filter(t=>t.status==="Concluído").length+" concluídas · "+tasks.filter(t=>t.status!=="Concluído").length+" pendentes ou em andamento";
- const toChart=METRICS.filter(m=>num(b.metrics[m.id].base)!==null||num(b.metrics[m.id].target)!==null);
- $("rateChart").innerHTML=toChart.length?toChart.map(m=>{
-  const v=b.metrics[m.id],a=num(v.base),t=num(v.target),gap=a!==null&&t!==null?t-a:null,scale=Math.max(a||0,t||0,.1);
-  return '<div class="chartrow"><div class="charttop"><span class="chartname">'+esc(m.name)+'</span><span class="chartgap '+(gap!==null&&gap<=0?"ok":"")+'">'+esc(gap===null?"Faltam dados":gap>0?"Faltam "+pp(gap):gap===0?"Meta atingida":"Taxa atual acima da meta")+'</span></div><div class="barline"><span>Hoje</span><div class="bartrack"><div class="barfill" style="width:'+Math.max(0,Math.min(100,(a||0)/scale*100))+'%"></div></div><b>'+esc(pct(a))+'</b></div><div class="barline"><span>Meta</span><div class="bartrack"><div class="barfill target" style="width:'+Math.max(0,Math.min(100,(t||0)/scale*100))+'%"></div></div><b>'+esc(pct(t))+'</b></div></div>'
- }).join(""):'<div class="empty">Preencha as taxas atuais e as metas nas etapas anteriores.</div>';
- let body="",stageTotal=0,stageCount=0,sumStageRevenue=0;
- METRICS.forEach(m=>{
-  const v=b.metrics[m.id],a=num(v.base),t=num(v.target),gap=a!==null&&t!==null?t-a:null;
-  let stageRevenue="—",opportunity="—";
-  if(m.id==="page"){stageRevenue=rev===null?"—":money(rev);opportunity=mainValid?(mainExtra>0?"+"+money(mainExtra)+" / mês":"Sem potencial extra na meta atual"):"Preencha faturamento, taxa atual e meta"}
-  else if(m.stage){
-   const sr=num(v.stageRevenue);
-   stageRevenue=sr===null?"Não preenchido":money(sr);
-   if(sr!==null)sumStageRevenue+=sr;
-   if(sr!==null&&sr>=0&&a!==null&&a>0&&t!==null&&t>a){const extra=sr*(t/a-1);opportunity="+"+money(extra)+" / mês";stageTotal+=extra;stageCount++}
-   else if(sr===null)opportunity="Informe a receita da oferta";
-   else if(a===null||t===null)opportunity="Preencha taxa atual e meta";
-   else if(a===0)opportunity="Não é possível projetar a partir de 0%";
-   else opportunity="Meta não aumenta a taxa";
-  }
-  body+='<tr><td><b>'+esc(m.name)+'</b></td><td>'+esc(pct(a))+'</td><td>'+esc(pct(t))+'</td><td>'+esc(gap===null?"—":pp(gap))+'</td><td>'+esc(stageRevenue)+'</td><td>'+esc(opportunity)+'</td></tr>';
- });
- $("opportunityTable").innerHTML='<table><thead><tr><th>Etapa</th><th>Hoje</th><th>Meta</th><th>Diferença</th><th>Receita da etapa</th><th>Oportunidade estimada</th></tr></thead><tbody>'+body+'</tbody></table>';
- const warnings=[];
- if(rev!==null&&sumStageRevenue>rev)warnings.push("A soma das receitas informadas para as ofertas extras é maior que o faturamento total. Confira se algum valor foi contado duas vezes.");
- if(!mainValid)warnings.push("Para calcular o potencial em reais, preencha o faturamento mensal e as taxas atuais e metas da página. As ofertas extras precisam também da receita mensal de cada etapa.");
- if(mainValid&&p.target<=p.base)warnings.push("A meta da página não está acima da taxa atual. Não há potencial positivo calculado para a página até ajustar a meta.");
- if(stageCount)warnings.push("As oportunidades das ofertas extras são mostradas separadamente e não estão somadas ao potencial da página, para reduzir o risco de dupla contagem.");
- $("reportWarnings").innerHTML=warnings.map(w=>'<div class="warning">'+esc(w)+'</div>').join("");
-}
-function renderAudits(){const b=current();$("auditList").innerHTML=AUDITS.map(a=>'<div class="audit"><div><div class="auditname">'+esc(a.name)+'</div><div class="auditdesc">'+esc(a.desc)+'</div></div><select data-audit="'+a.id+'">'+["Não conferido","Está bom","Precisa melhorar","Não existe"].map(s=>'<option '+((b.audits[a.id]||"Não conferido")===s?"selected":"")+'>'+s+'</option>').join("")+'</select></div>').join("")}
-function saveBaseline(){
- const b=current();if(num(b.baseRevenue)===null||num(b.baseRevenue)<=0)return;
- if(b.baselineSaved)return;
- b.history.unshift({kind:"base",label:"Antes das otimizações",date:new Date().toLocaleDateString("pt-BR"),stamp:new Date().toISOString(),revenue:num(b.baseRevenue),metrics:Object.fromEntries(METRICS.map(m=>[m.id,num(b.metrics[m.id].base)]))});
- b.baselineSaved=true;save();
-}
-function renderAfterMetrics(){
- const b=current();$("afterMetrics").innerHTML=METRICS.map(m=>{
-  const v=b.metrics[m.id],last=[...b.history].reverse().find(h=>h.kind==="result"),currentValue=v.latest!==""&&v.latest!==undefined?v.latest:(last?.metrics?.[m.id]??"");
-  return '<div class="metric"><div class="mtop"><div><div class="mname">'+esc(m.name)+'</div><div class="mdesc">Taxa medida depois das mudanças.</div></div></div><div class="percent"><input type="number" min="0" max="100" step="0.1" data-after="'+m.id+'" value="'+esc(currentValue)+'" placeholder="Ex.: 3,2"><span>%</span></div><div class="mfoot" id="afterGap-'+m.id+'">Variação em relação ao início: '+esc(num(v.base)!==null&&num(currentValue)!==null?pp(num(currentValue)-num(v.base)):"—")+'</div></div>'
- }).join("")
-}
-function saveResult(){
- const b=current(),rev=num($("afterRevenue").value),date=$("afterDate").value||today();
- if(rev===null||rev<0){toast("Preencha o faturamento depois das otimizações.");$("afterRevenue").focus();return}
- const previous=[...b.history].reverse().find(h=>h.kind==="result");
- const metrics={};
- METRICS.forEach(m=>{const el=document.querySelector('[data-after="'+m.id+'"]');const v=num(el?.value);metrics[m.id]=v===null?(previous?.metrics?.[m.id]??num(b.metrics[m.id].base)):v;b.metrics[m.id].latest=metrics[m.id]===null?"":metrics[m.id]});
- b.history.push({kind:"result",label:"Resultado "+(b.history.filter(h=>h.kind==="result").length+1),date:new Date(date+"T12:00:00").toLocaleDateString("pt-BR"),stamp:date+"T12:00:00",revenue:rev,metrics});
- save();renderEvolution();renderSummary();renderAfterMetrics();toast("Resultado salvo. Gráfico atualizado.");
-}
-function renderEvolution(){
- const b=current(),hist=b.history.slice().sort((a,c)=>new Date(a.stamp)-new Date(c.stamp)),base=hist.find(h=>h.kind==="base"),results=hist.filter(h=>h.kind==="result"),last=results[results.length-1];
- $("evoBase").textContent=base?money(base.revenue):"—";$("evoNow").textContent=last?money(last.revenue):"—";
- const delta=base&&last?last.revenue-base.revenue:null,growth=base&&last&&base.revenue>0?(last.revenue/base.revenue-1)*100:null;
- $("evoDiff").textContent=delta===null?"—":(delta>=0?"+":"")+money(delta);
- $("evoPct").textContent=growth===null?"Salve o primeiro resultado":(growth>=0?"+":"")+growth.toLocaleString("pt-BR",{maximumFractionDigits:1})+"% em relação ao início";
- const host=$("evoChart"),vals=hist.map(h=>h.revenue);
- if(!hist.length){host.innerHTML='<div class="empty">Registre a base e depois salve um resultado após as otimizações.</div>'}
- else{
-  const w=650,h=245,p={l:75,r:20,t:18,b:39},max=Math.max(...vals,1)*1.15,min=0,span=max||1,x=i=>p.l+(hist.length===1?(w-p.l-p.r)/2:i*(w-p.l-p.r)/(hist.length-1)),y=v=>p.t+(max-v)/span*(h-p.t-p.b);
-  let svg="";
-  for(let i=0;i<4;i++){const v=max*i/3,yy=y(v);svg+='<line x1="'+p.l+'" y1="'+yy+'" x2="'+(w-p.r)+'" y2="'+yy+'" stroke="#e5e9f2" stroke-dasharray="3 4"/><text x="'+(p.l-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="10" fill="#69758d">'+esc(money(v))+'</text>'}
-  svg+='<polyline points="'+hist.map((q,i)=>x(i)+","+y(q.revenue)).join(" ")+'" fill="none" stroke="#6751df" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
-  hist.forEach((q,i)=>{svg+='<circle cx="'+x(i)+'" cy="'+y(q.revenue)+'" r="5" fill="'+(q.kind==="base"?"#12815c":"#6751df")+'" stroke="#fff" stroke-width="2"/><text x="'+x(i)+'" y="'+(h-10)+'" text-anchor="middle" font-size="10" fill="#69758d">'+esc(q.kind==="base"?"Início":q.date)+'</text>'});
-  host.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Gráfico da evolução do faturamento">'+svg+'</svg>';
- }
- $("evoTable").innerHTML=hist.length?'<div class="tablewrap"><table><thead><tr><th>Período</th><th>Faturamento</th><th>Diferença vs. início</th></tr></thead><tbody>'+hist.slice().reverse().map(q=>{const d=base?q.revenue-base.revenue:null,pr=base&&base.revenue>0?d/base.revenue*100:null;return '<tr><td>'+esc(q.label)+'<br>'+esc(q.date)+'</td><td><b>'+esc(money(q.revenue))+'</b></td><td>'+esc(pr===null?"—":(pr>=0?"+":"")+pr.toLocaleString("pt-BR",{maximumFractionDigits:1})+"% ("+(d>=0?"+":"")+money(d)+")")+'</td></tr>'}).join("")+'</tbody></table></div>':'<div class="empty">Ainda não há resultados salvos.</div>';
- $("evoMetrics").innerHTML=METRICS.map(m=>{const baseValue=base?.metrics?.[m.id],lastValue=last?.metrics?.[m.id],diff=baseValue!==null&&baseValue!==undefined&&lastValue!==null&&lastValue!==undefined?lastValue-baseValue:null;return '<div class="chartrow"><div class="charttop"><span class="chartname">'+esc(m.name)+'</span><span class="chartgap '+(diff!==null&&diff>=0?"ok":"")+'">'+esc(diff===null?"Faltam dados":pp(diff))+'</span></div><div class="barline"><span>Início</span><div class="bartrack"><div class="barfill" style="width:'+Math.min(100,Math.max(0,(baseValue||0)))+'%"></div></div><b>'+esc(pct(baseValue))+'</b></div><div class="barline"><span>Agora</span><div class="bartrack"><div class="barfill target" style="width:'+Math.min(100,Math.max(0,(lastValue||0)))+'%"></div></div><b>'+esc(pct(lastValue))+'</b></div></div>'}).join("");
-}
-function showStep(n){
- state.step=Math.max(0,Math.min(5,n));
- document.querySelectorAll(".panel").forEach((p,i)=>p.hidden=i!==state.step);
- document.querySelectorAll(".step").forEach((s,i)=>{s.classList.toggle("active",i===state.step);s.classList.toggle("done",i<state.step)});
- $("stepName").textContent="Etapa "+(state.step+1)+" · "+STEP_NAMES[state.step];$("stepCount").textContent=(state.step+1)+" de 6";$("progress").style.width=((state.step+1)/6*100)+"%";$("prev").disabled=state.step===0;$("next").textContent=state.step===5?"Voltar ao início":"Continuar";
- renderSummary();renderReport();renderEvolution();save();window.scrollTo({top:0,behavior:"smooth"});
-}
-function renderAll(){
- renderBrands();$("brandName").value=current().name||"";$("baseRevenue").value=current().baseRevenue??"";
- renderMetricSteps();renderAudits();renderTasks();renderAfterMetrics();renderSummary();renderReport();renderEvolution();showStep(state.step);
-}
-$("brandName").addEventListener("input",e=>{current().name=e.target.value;renderBrands();renderSummary();renderReport();save()});
-$("baseRevenue").addEventListener("input",e=>{current().baseRevenue=e.target.value;renderSummary();renderReport();save()});
-document.addEventListener("input",e=>{
- const id=e.target.dataset.metric,field=e.target.dataset.field,stage=e.target.dataset.stageRevenue,after=e.target.dataset.after;
- if(id&&field){
-  let v=num(e.target.value);if(v!==null)v=Math.max(0,Math.min(100,v));
-  current().metrics[id][field]=v===null?"":v;
-  const base=num(current().metrics[id].base),target=num(current().metrics[id].target),gap=base!==null&&target!==null?target-base:null;
-  const element=$("gap-"+id);if(element)element.innerHTML=gap===null?"Preencha a taxa de hoje e a meta.":gap>0?'<span class="gapup">Faltam '+esc(pp(gap))+' para a meta.</span>':gap===0?'<span class="gapok">Meta atingida.</span>':'<span class="gapok">A taxa atual está acima da meta.</span>';
-  renderSummary();renderReport();save();
- }
- if(stage){current().metrics[stage].stageRevenue=e.target.value;renderReport();save()}
- if(after){let v=num(e.target.value);if(v!==null)v=Math.max(0,Math.min(100,v));current().metrics[after].latest=v===null?"":v;const el=$("afterGap-"+after);const base=num(current().metrics[after].base);if(el)el.textContent="Variação em relação ao início: "+(v===null||base===null?"—":pp(v-base));save()}
-});
-document.addEventListener("change",e=>{
- const a=e.target.dataset.audit;if(a){current().audits[a]=e.target.value;renderTasks();renderReport();renderSummary();save()}
- const status=e.target.dataset.taskStatus;if(status){const t=current().tasks.find(t=>t.key===status);if(t)t.status=e.target.value;renderSummary();renderReport();save()}
- const check=e.target.dataset.taskCheck;if(check){const t=current().tasks.find(t=>t.key===check);if(t)t.selected=e.target.checked;renderSummary();renderReport();save()}
-});
-$("brandSelect").addEventListener("change",e=>{state.activeId=e.target.value;state.step=0;renderAll()});
-$("newBrand").addEventListener("click",()=>{const b=emptyBrand();state.brands.push(b);state.activeId=b.id;state.step=0;renderAll();$("brandName").focus();toast("Nova marca criada.")});
-document.querySelectorAll(".step").forEach(el=>el.addEventListener("click",()=>{const n=Number(el.dataset.step);if(n<=state.step)showStep(n);else toast("Clique em Continuar para avançar etapa por etapa.")}));
-$("prev").addEventListener("click",()=>showStep(state.step-1));
-$("next").addEventListener("click",()=>{
- const b=current();
- if(state.step===0){
-  if(!b.name.trim()){toast("Digite o nome da marca.");$("brandName").focus();return}
-  if(num(b.baseRevenue)===null||num(b.baseRevenue)<=0){toast("Digite o faturamento mensal atual.");$("baseRevenue").focus();return}
- }
- if(state.step===3)saveBaseline();
- if(state.step<5)showStep(state.step+1);else showStep(0);
-});
-$("saveResult").addEventListener("click",saveResult);
-$("afterDate").value=today();
-$("printReport").addEventListener("click",()=>{showStep(4);document.body.classList.add("printing");window.print();setTimeout(()=>document.body.classList.remove("printing"),1000)});
-$("printEvolution").addEventListener("click",()=>window.print());
-$("exportBackup").addEventListener("click",()=>{
- const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
- const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="B4You_Growth_Backup.json";a.click();URL.revokeObjectURL(a.href);
-});
-renderAll();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));$('saveStatus').textContent='Salvo automaticamente'}catch(e){$('saveStatus').textContent='Não foi possível salvar neste navegador'}}
+function toast(t){const el=$('toast');el.textContent=t;el.style.display='block';clearTimeout(window._growthToast);window._growthToast=setTimeout(()=>el.style.display='none',2500)}
+function brandLabel(b){return b.name.trim()||'Nova marca'}
+function renderBrands(){const sel=$('brandSelect');sel.innerHTML=state.brands.map(b=>'<option value="'+esc(b.id)+'">'+esc(brandLabel(b))+'</option>').join('');sel.value=state.activeId}
+function metricCard(m){const b=current(),v=b.metrics[m.id]||{},base=num(v.base),target=num(v.target),gap=base!==null&&target!==null?target-base:null;let price='';if(m.price)price='<div class="pricefield"><label for="price-'+m.id+'">Preço unitário do '+esc(m.name)+' (R$)</label><div class="money"><span>R$</span><input id="price-'+m.id+'" type="number" min="0" step="0.01" data-price="'+m.id+'" value="'+esc(v.price??'')+'" placeholder="Ex.: 47"></div><small>Informe o preço de uma unidade desta oferta, não o faturamento mensal dela.</small></div>';return '<article class="metric"><div class="mtop"><div><div class="mname">'+esc(m.name)+'</div><div class="mdesc">'+esc(m.desc)+'</div></div><span class="tag">'+esc(m.area)+'</span></div><div class="metricfields"><div><label>Taxa atual (%)</label><div class="percent"><input type="number" min="0" max="100" step="0.1" data-metric="'+m.id+'" data-field="base" value="'+esc(v.base??'')+'" placeholder="Ex.: 2,5"><span>%</span></div></div><div><label>Meta desejada (%)</label><div class="percent"><input type="number" min="0" max="100" step="0.1" data-metric="'+m.id+'" data-field="target" value="'+esc(v.target??'')+'" placeholder="Ex.: 3,0"><span>%</span></div></div></div>'+price+'<div class="mfoot" id="gap-'+m.id+'">'+(gap===null?'Preencha a taxa atual e a meta.':gap>0?'<span class="gapup">Faltam '+esc(pp(gap))+' para a meta.</span>':gap===0?'<span class="gapok">Meta atingida.</span>':'<span class="gapok">A taxa atual está acima da meta.</span>')+'</div></article>'}
+function renderMetrics(){ $('metricsPage').innerHTML=METRICS.filter(m=>m.step===1).map(metricCard).join('');$('metricsOffers').innerHTML=METRICS.filter(m=>m.step===2).map(metricCard).join('')}
+function renderAudits(){const b=current();$('auditList').innerHTML=AUDITS.map(a=>'<div class="audit"><div><div class="auditname">'+esc(a.name)+'</div><div class="auditdesc">'+esc(a.desc)+'</div></div><select data-audit="'+a.id+'" aria-label="Estado de '+esc(a.name)+'">'+['Não conferido','Está bom','Precisa melhorar','Não existe'].map(x=>'<option '+((b.audits[a.id]||'Não conferido')===x?'selected':'')+'>'+x+'</option>').join('')+'</select></div>').join('')}
+function updateGap(id){const v=current().metrics[id]||{},a=num(v.base),t=num(v.target),gap=a!==null&&t!==null?t-a:null,el=$('gap-'+id);if(el)el.innerHTML=gap===null?'Preencha a taxa atual e a meta.':gap>0?'<span class="gapup">Faltam '+esc(pp(gap))+' para a meta.</span>':gap===0?'<span class="gapok">Meta atingida.</span>':'<span class="gapok">A taxa atual está acima da meta.</span>'}
+function buildTasks(){const b=current(),old=new Map((b.tasks||[]).map(t=>[t.key,t])),out=[];const ideas={page:['Melhorar a conversão da página para checkout','Teste a promessa, a clareza da oferta e o botão principal.','Alta'],checkout:['Melhorar a finalização do checkout','Revise erros, etapas e clareza do preço total.','Alta'],bump:['Otimizar o Order Bump','Teste o benefício, o preço e a relevância da oferta extra.','Alta'],back:['Otimizar o Back Redirect','Confirme o funcionamento e teste a oferta de recuperação.','Média'],upsell1:['Otimizar o Upsell 1','Teste apresentação, benefício e preço.','Alta'],upsell2:['Otimizar o Upsell 2','Confira se a oferta acrescenta valor sem repetir a anterior.','Média'],upsell3:['Otimizar o Upsell 3','Teste se a oferta acrescenta receita sem prejudicar a experiência.','Média']};METRICS.forEach(m=>{const v=b.metrics[m.id]||{},a=num(v.base),t=num(v.target);if(a!==null&&t!==null&&t>a){const id='rate_'+m.id,z=ideas[m.id]||['Revisar '+m.name,m.desc,'Média'],prior=old.get(id);out.push({key:id,area:m.area,title:z[0],desc:z[1],priority:z[2],reason:'A meta está '+pp(t-a)+' acima da taxa atual.',selected:prior?.selected??true,status:prior?.status||'Pendente'})}});AUDITS.forEach(a=>{const status=b.audits[a.id]||'Não conferido';if(!['Precisa melhorar','Não existe'].includes(status)&&!(status==='Não conferido'&&['tracking','leaderboard'].includes(a.id)))return;const id='audit_'+a.id,prior=old.get(id);out.push({key:id,area:a.area,title:a.name,desc:a.rec,priority:a.priority,reason:status==='Não existe'?'Foi marcado como ausente':status==='Precisa melhorar'?'Foi marcado para melhorar':'Ainda precisa ser verificado.',selected:prior?.selected??true,status:prior?.status||'Pendente'})});b.tasks=out;return out}
+function renderTasks(){const b=current(),tasks=buildTasks();$('actionFound').textContent=tasks.length;$('actionSelected').textContent=tasks.filter(t=>t.selected&&t.status!=='Não será feita').length;$('actionDone').textContent=tasks.filter(t=>t.selected&&t.status==='Concluída').length;$('actionList').innerHTML=tasks.length?tasks.map((t,i)=>'<article class="action"><div class="actionnum">'+(i+1)+'</div><div><h4>'+esc(t.title)+'</h4><p>'+esc(t.desc)+'<br><b>Por que:</b> '+esc(t.reason)+'</p><label style="display:flex;gap:7px;align-items:center;margin-top:9px;font-size:12px;font-weight:800"><input type="checkbox" data-task-check="'+esc(t.key)+'" '+(t.selected?'checked':'')+'> Incluir no plano</label></div><div class="actionmeta"><span class="priority '+(t.priority==='Alta'?'high':t.priority==='Média'?'medium':'low')+'">'+esc(t.priority)+' prioridade</span><select data-task-status="'+esc(t.key)+'">'+['Pendente','Em andamento','Concluída','Não será feita'].map(s=>'<option '+((t.status||'Pendente')===s?'selected':'')+'>'+s+'</option>').join('')+'</select></div></article>').join(''):'<div class="empty"><strong>Nenhuma oportunidade foi marcada.</strong>Preencha as metas nas etapas anteriores ou marque um item como “Precisa melhorar” ou “Não existe”.</div>';save()}
+function calcModel(){const b=current(),visits=num(b.pageVisits),mainPrice=num(b.mainPrice),rev=num(b.baseRevenue),v=b.metrics;const pb=num(v.page.base),pt=num(v.page.target),cb=num(v.checkout.base),ct=num(v.checkout.target);const effPt=pt??pb,effCt=ct??cb;let pageDelta=null,checkoutDelta=null,baseBuyers=null,targetBuyers=null;if(visits!==null&&visits>=0&&mainPrice!==null&&pb!==null&&cb!==null){baseBuyers=visits*pb/100*cb/100;if(effPt!==null)targetBuyers=visits*effPt/100*(effCt??cb)/100;if(pt!==null)pageDelta=visits*(pt-pb)/100*(cb/100)*mainPrice;if(ct!==null&&effPt!==null)checkoutDelta=visits*(effPt/100)*(ct-cb)/100*mainPrice;}const rows=[];let addonTotal=0,completeOffers=0,missingOffers=[];const ids=['bump','back','upsell1','upsell2','upsell3'];ids.forEach(id=>{const m=v[id]||{},rate=num(m.base),target=num(m.target),price=num(m.price);let audienceBase=null,audienceTarget=null,baseIncome=null,targetIncome=null,delta=null;if(visits!==null&&pb!==null&&cb!==null){if(id==='back'){audienceBase=visits*Math.max(0,1-pb/100);audienceTarget=visits*Math.max(0,1-(effPt??pb)/100)}else{audienceBase=baseBuyers;audienceTarget=targetBuyers}}if(price!==null&&rate!==null&&target!==null&&audienceBase!==null&&audienceTarget!==null){baseIncome=audienceBase*rate/100*price;targetIncome=audienceTarget*target/100*price;delta=targetIncome-baseIncome;addonTotal+=delta;completeOffers++}else missingOffers.push(id);rows.push({id,name:m.name||({bump:'Order Bump',back:'Back Redirect',upsell1:'Upsell 1',upsell2:'Upsell 2',upsell3:'Upsell 3'}[id]),rate,target,price,audienceBase,audienceTarget,baseIncome,targetIncome,delta,eligible:delta!==null})});const pageComplete=visits!==null&&mainPrice!==null&&pb!==null&&pt!==null&&cb!==null&&ct!==null;let mainDelta=null;if(pageDelta!==null||checkoutDelta!==null)mainDelta=(pageDelta??0)+(checkoutDelta??0);const knownDeltas=(mainDelta===null?0:mainDelta)+addonTotal;const hasAny=mainDelta!==null||completeOffers>0;const totalDelta=hasAny?knownDeltas:null;const projected=rev!==null&&totalDelta!==null?rev+totalDelta:null;const stageRows=[];const visitsForTable=visits===null?null:visits;const pageTargetIncome=visitsForTable!==null&&mainPrice!==null&&effPt!==null&&cb!==null?visitsForTable*effPt/100*cb/100*mainPrice:null;const checkoutBaseIncome=pageTargetIncome;const checkoutTargetIncome=visitsForTable!==null&&mainPrice!==null&&effPt!==null&&effCt!==null?visitsForTable*effPt/100*effCt/100*mainPrice:null;if(pageDelta!==null)stageRows.push({id:'page',name:'Melhoria da página',price:mainPrice,rate:pb,target:pt,delta:pageDelta,baseIncome:baseBuyers!==null&&mainPrice!==null?baseBuyers*mainPrice:null,targetIncome:pageTargetIncome});else stageRows.push({id:'page',name:'Melhoria da página',price:mainPrice,rate:pb,target:pt,delta:null,baseIncome:baseBuyers!==null&&mainPrice!==null?baseBuyers*mainPrice:null,targetIncome:pageTargetIncome});if(checkoutDelta!==null)stageRows.push({id:'checkout',name:'Melhoria do checkout',price:mainPrice,rate:cb,target:ct,delta:checkoutDelta,baseIncome:checkoutBaseIncome,targetIncome:checkoutTargetIncome});else stageRows.push({id:'checkout',name:'Melhoria do checkout',price:mainPrice,rate:cb,target:ct,delta:null,baseIncome:checkoutBaseIncome,targetIncome:checkoutTargetIncome});rows.forEach(r=>stageRows.push(r));stageRows.push({id:'oneclick',name:'One-Click (indicador auxiliar)',price:null,rate:num(v.oneclick.base),target:num(v.oneclick.target),delta:null,baseIncome:null,targetIncome:null,notCounted:true});return{visits,mainPrice,rev,pb,pt,cb,ct,baseBuyers,targetBuyers,pageDelta,checkoutDelta,mainDelta,addonTotal,rows,stageRows,completeOffers,missingOffers,hasAny,totalDelta,projected,pageComplete}}
+function reportRateChart(model){const chosen=METRICS.filter(m=>num(current().metrics[m.id].base)!==null||num(current().metrics[m.id].target)!==null);if(!chosen.length)return '<div class="empty">Preencha as taxas atuais e as metas nas etapas anteriores.</div>';return chosen.map(m=>{const v=current().metrics[m.id],a=num(v.base),t=num(v.target),gap=a!==null&&t!==null?t-a:null,scale=Math.max(a||0,t||0,.1);return '<div class="chartrow"><div class="charttop"><span class="chartname">'+esc(m.name)+'</span><span class="chartgap '+(gap!==null&&gap<=0?'ok':'')+'">'+esc(gap===null?'Faltam dados':gap>0?'Faltam '+pp(gap):gap===0?'Meta atingida':'Atual acima da meta')+'</span></div><div class="barline"><span>Hoje</span><div class="bartrack"><div class="barfill" style="width:'+Math.max(0,Math.min(100,(a||0)/scale*100))+'%"></div></div><b>'+esc(pct(a))+'</b></div><div class="barline"><span>Meta</span><div class="bartrack"><div class="barfill target" style="width:'+Math.max(0,Math.min(100,(t||0)/scale*100))+'%"></div></div><b>'+esc(pct(t))+'</b></div></div>'}).join('')}
+function reportTable(model){const rows=model.stageRows;return '<table class="reporttable"><thead><tr><th>Etapa</th><th>Preço unitário</th><th>Hoje</th><th>Meta</th><th>Receita hoje / mês</th><th>Receita na meta / mês</th><th>Ganho ou perda / mês</th></tr></thead><tbody>'+rows.map(r=>{let impact=r.delta===null?(r.notCounted?'Não somado':'Faltam dados'):((r.delta>=0?'+':'')+money(r.delta));return '<tr><td><b>'+esc(r.name)+'</b>'+(r.notCounted?'<div style="color:var(--muted);font-size:10px;margin-top:3px">Indicador auxiliar, não somado de novo</div>':'')+'</td><td>'+esc(r.price===null?'—':money(r.price))+'</td><td>'+esc(pct(r.rate))+'</td><td>'+esc(pct(r.target))+'</td><td>'+esc(r.baseIncome===undefined||r.baseIncome===null?'—':money(r.baseIncome))+'</td><td>'+esc(r.targetIncome===undefined||r.targetIncome===null?'—':money(r.targetIncome))+'</td><td><b>'+esc(impact)+'</b></td></tr>'}).join('')+'</tbody></table>'}
+function renderMoneyChart(model){const rows=model.stageRows.filter(r=>!r.notCounted);const valid=rows.filter(r=>r.delta!==null);if(!valid.length)return '<div class="empty">O gráfico em reais aparecerá quando houver visitas, taxas e preços suficientes.</div>';const max=Math.max(1,...valid.map(r=>Math.abs(r.delta)));return valid.map(r=>'<div class="moneyrow"><div class="moneyrowname">'+esc(r.name)+'</div><div class="moneybartrack"><div class="moneybarfill '+(r.delta<0?'negative':'')+'" style="width:'+Math.max(2,Math.abs(r.delta)/max*100)+'%"></div></div><div class="moneyval" style="color:'+(r.delta<0?'var(--red)':'var(--green)')+'">'+(r.delta>=0?'+':'')+money(r.delta)+'</div></div>').join('')}
+function renderReport(){const b=current(),model=calcModel(),tasks=(b.tasks||[]).filter(t=>t.selected&&t.status!=='Não será feita').sort((a,c)=>({Alta:0,Média:1,Baixa:2}[a.priority]??3)-({Alta:0,Média:1,Baixa:2}[c.priority]??3));$('reportBrand').textContent='Marca: '+brandLabel(b);$('reportDate').textContent='Gerado em: '+new Date().toLocaleDateString('pt-BR');$('rCurrentRevenue').textContent=model.rev===null?'—':money(model.rev);$('rPotential').textContent=model.totalDelta===null?'Faltam dados':(model.totalDelta>=0?'+':'')+money(model.totalDelta);$('rPotentialNote').textContent=model.totalDelta===null?'Preencha visitas, taxas e preços para calcular.':model.totalDelta>=0?'Soma estimada das melhorias com dados suficientes.':'As metas atuais podem reduzir o faturamento estimado.';$('rProjectedRevenue').textContent=model.projected===null?'—':money(model.projected);$('rAnnual').textContent=model.totalDelta===null?'—':(model.totalDelta>=0?'+':'')+money(model.totalDelta*12);const best=[...model.stageRows.filter(r=>r.delta!==null&&!r.notCounted)].sort((a,c)=>c.delta-a.delta)[0];$('rTopStage').textContent=best?best.name:'—';$('rTopStageAmount').textContent=best?(best.delta>=0?'+':'')+money(best.delta)+' por mês':'Faltam dados suficientes.';$('rActions').textContent=tasks.length;$('rActionsNote').textContent=tasks.filter(t=>t.status==='Concluída').length+' concluídas · '+tasks.filter(t=>t.status!=='Concluída').length+' em aberto';$('reportCompleteness').textContent=model.totalDelta===null?'Estimativa incompleta':(!model.pageComplete||model.missingOffers.length?'Estimativa parcial · faltam alguns dados':'Estimativa calculada com os dados preenchidos');$('rateChart').innerHTML=reportRateChart(model);$('moneyChart').innerHTML=renderMoneyChart(model);$('opportunityTable').innerHTML=reportTable(model);const warnings=[];if(model.visits===null||model.mainPrice===null)warnings.push('Para calcular o potencial do produto principal, informe as visitas mensais e o preço do produto principal na etapa 1.');if(model.pageComplete===false)warnings.push('A oportunidade do produto principal exige: visitas mensais, taxa atual e meta da página, taxa atual e meta do checkout e preço do produto principal.');model.rows.forEach(r=>{if(!r.eligible)warnings.push(r.name+': preencha taxa atual, meta e preço unitário para calcular a oportunidade desta oferta.')});if(model.visits!==null&&model.visits<0)warnings.push('As visitas mensais precisam ser iguais ou maiores que zero.');$('reportWarnings').innerHTML=warnings.map(w=>'<div class="warning">'+esc(w)+'</div>').join('');$('reportTasks').innerHTML=tasks.length?tasks.map((t,i)=>'<article class="action"><div class="actionnum">'+(i+1)+'</div><div><h4>'+esc(t.title)+'</h4><p>'+esc(t.desc)+'<br><b>Motivo:</b> '+esc(t.reason||'Oportunidade identificada')+'</p></div><div class="actionmeta"><span class="priority '+(t.priority==='Alta'?'high':t.priority==='Média'?'medium':'low')+'">'+esc(t.priority)+' prioridade</span><div style="margin-top:6px">'+esc(t.status||'Pendente')+'</div></div></article>').join(''):'<div class="empty"><strong>Nenhuma ação foi selecionada.</strong>Na etapa 5, marque as melhorias que deseja executar.</div>';}
+function renderAfterMetrics(){const b=current();$('afterMetrics').innerHTML=METRICS.map(m=>{const v=b.metrics[m.id]||{};return '<div class="metric"><div class="mtop"><div><div class="mname">'+esc(m.name)+'</div><div class="mdesc">Taxa real depois das mudanças.</div></div></div><div class="percent"><input type="number" min="0" max="100" step="0.1" data-after="'+m.id+'" value="'+esc(v.latest??'')+'" placeholder="Ex.: 3,2"><span>%</span></div><div class="mfoot" id="afterGap-'+m.id+'">Variação vs. início: '+esc(num(v.latest)!==null&&num(v.base)!==null?pp(num(v.latest)-num(v.base)):'—')+'</div></div>'}).join('')}
+function saveResult(){const b=current(),rev=num($('afterRevenue').value),date=$('afterDate').value||today();if(rev===null||rev<0){toast('Preencha o faturamento mensal depois das mudanças.');$('afterRevenue').focus();return}const metrics={};METRICS.forEach(m=>{const el=document.querySelector('[data-after="'+m.id+'"]'),v=num(el?.value);metrics[m.id]=v===null?(b.metrics[m.id].latest!==''?num(b.metrics[m.id].latest):num(b.metrics[m.id].base)):v;b.metrics[m.id].latest=metrics[m.id]===null?'':metrics[m.id]});b.history.push({kind:'result',id:uid(),label:'Resultado '+(b.history.filter(x=>x.kind==='result').length+1),date:new Date(date+'T12:00:00').toLocaleDateString('pt-BR'),stamp:date+'T12:00:00',revenue:rev,metrics});save();renderEvolution();renderReport();toast('Resultado salvo. Gráficos atualizados.')}
+function saveBaseline(){const b=current();if(b.baselineSaved)return;const rev=num(b.baseRevenue);if(rev===null)return;b.history.unshift({kind:'base',id:uid(),label:'Antes das otimizações',date:new Date().toLocaleDateString('pt-BR'),stamp:new Date().toISOString(),revenue:rev,metrics:Object.fromEntries(METRICS.map(m=>[m.id,num(b.metrics[m.id].base)]))});b.baselineSaved=true;save()}
+function renderEvolution(){const b=current(),h=b.history.slice().sort((a,c)=>new Date(a.stamp)-new Date(c.stamp)),base=h.find(x=>x.kind==='base'),lasts=h.filter(x=>x.kind==='result'),last=lasts[lasts.length-1];$('evoBase').textContent=base?money(base.revenue):(num(b.baseRevenue)!==null?money(num(b.baseRevenue)):'—');$('evoNow').textContent=last?money(last.revenue):'—';const delta=base&&last?last.revenue-base.revenue:null,growth=base&&last&&base.revenue>0?(last.revenue/base.revenue-1)*100:null;$('evoDelta').textContent=delta===null?'—':(delta>=0?'+':'')+money(delta);$('evoPct').textContent=growth===null?'Salve o primeiro resultado':(growth>=0?'+':'')+growth.toLocaleString('pt-BR',{maximumFractionDigits:1})+'% em relação ao início';const chart=$('evoChart');if(!h.length){chart.innerHTML='<div class="empty">Salve a base e registre resultados depois das otimizações para iniciar o gráfico.</div>'}else{const vals=h.map(x=>x.revenue),w=680,hh=240,p={l:78,r:20,t:18,b:38},max=Math.max(...vals,1)*1.15,x=i=>p.l+(h.length===1?(w-p.l-p.r)/2:i*(w-p.l-p.r)/(h.length-1)),y=v=>p.t+(max-v)/max*(hh-p.t-p.b);let svg='';for(let i=0;i<4;i++){const v=max*i/3,yy=y(v);svg+='<line x1="'+p.l+'" y1="'+yy+'" x2="'+(w-p.r)+'" y2="'+yy+'" stroke="#e4e8f1" stroke-dasharray="3 4"/><text x="'+(p.l-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="10" fill="#64718a">'+esc(money(v))+'</text>'}svg+='<polyline points="'+h.map((q,i)=>x(i)+','+y(q.revenue)).join(' ')+'" fill="none" stroke="#5CEBD4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';h.forEach((q,i)=>{svg+='<circle cx="'+x(i)+'" cy="'+y(q.revenue)+'" r="5" fill="'+(q.kind==='base'?'#13815c':'#5CEBD4')+'" stroke="#fff" stroke-width="2"/><text x="'+x(i)+'" y="'+(hh-10)+'" text-anchor="middle" font-size="10" fill="#64718a">'+esc(q.kind==='base'?'Início':q.date)+'</text>'});chart.innerHTML='<svg viewBox="0 0 '+w+' '+hh+'" role="img" aria-label="Evolução do faturamento">'+svg+'</svg>'}$('evoTable').innerHTML=h.length?'<div class="tablewrap"><table class="reporttable"><thead><tr><th>Período</th><th>Faturamento</th><th>Variação vs. início</th></tr></thead><tbody>'+h.slice().reverse().map(q=>{const d=base?q.revenue-base.revenue:null,pr=base&&base.revenue>0?d/base.revenue*100:null;return '<tr><td>'+esc(q.label)+'<br>'+esc(q.date)+'</td><td><b>'+esc(money(q.revenue))+'</b></td><td>'+esc(pr===null?'—':(pr>=0?'+':'')+pr.toLocaleString('pt-BR',{maximumFractionDigits:1})+'% ('+(d>=0?'+':'')+money(d)+')')+'</td></tr>'}).join('')+'</tbody></table></div>':'<div class="empty">Ainda não existem resultados salvos.</div>';$('evoMetrics').innerHTML=METRICS.map(m=>{const a=base?.metrics?.[m.id],z=last?.metrics?.[m.id],gap=a!==null&&a!==undefined&&z!==null&&z!==undefined?z-a:null;return '<div class="chartrow"><div class="charttop"><span class="chartname">'+esc(m.name)+'</span><span class="chartgap '+(gap!==null&&gap>=0?'ok':'')+'">'+esc(gap===null?'Faltam dados':pp(gap))+'</span></div><div class="barline"><span>Início</span><div class="bartrack"><div class="barfill" style="width:'+Math.max(0,Math.min(100,a||0))+'%"></div></div><b>'+esc(pct(a))+'</b></div><div class="barline"><span>Agora</span><div class="bartrack"><div class="barfill target" style="width:'+Math.max(0,Math.min(100,z||0))+'%"></div></div><b>'+esc(pct(z))+'</b></div></div>'}).join('')}
+function updateSummary(){const b=current(),model=calcModel();$('sideBrand').textContent=brandLabel(b);$('sideRevenue').textContent=num(b.baseRevenue)===null?'—':money(num(b.baseRevenue));$('sideMetrics').textContent=METRICS.filter(m=>num(b.metrics[m.id].base)!==null).length+' de '+METRICS.length;$('sideTasks').textContent=(b.tasks||[]).filter(t=>t.selected&&t.status!=='Não será feita').length;$('sideProgress').style.width=(METRICS.filter(m=>num(b.metrics[m.id].base)!==null).length/METRICS.length*100)+'%';if(model.totalDelta!==null){$('heroPotential').textContent=(model.totalDelta>=0?'+':'')+money(model.totalDelta);$('heroNote').textContent='Estimativa mensal considerando as melhorias calculáveis. Veja o detalhamento no relatório final.'}else{$('heroPotential').textContent='Preencha os dados';$('heroNote').textContent='Informe visitas, preço principal e as taxas atuais e metas.'}}
+function showStep(n){state.step=Math.max(0,Math.min(5,n));document.querySelectorAll('.panel').forEach((p,i)=>p.hidden=i!==state.step);document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i===state.step);el.classList.toggle('done',i<state.step)});$('stepName').textContent='Etapa '+(state.step+1)+' · '+STEPS[state.step];$('stepCount').textContent=(state.step+1)+' de 6';$('progress').style.width=((state.step+1)/6*100)+'%';$('prev').disabled=state.step===0;$('next').hidden=state.step===5;$('next').textContent=state.step===4?'Gerar relatório final':'Continuar';renderReport();renderEvolution();updateSummary();save();window.scrollTo({top:0,behavior:'smooth'})}
+function renderAll(){renderBrands();$('brandName').value=current().name||'';$('baseRevenue').value=current().baseRevenue??'';$('pageVisits').value=current().pageVisits??'';$('mainPrice').value=current().mainPrice??'';renderMetrics();renderAudits();renderTasks();renderAfterMetrics();renderReport();renderEvolution();updateSummary();showStep(state.step)}
+$('brandName').addEventListener('input',e=>{current().name=e.target.value;renderBrands();updateSummary();renderReport();save()});['baseRevenue','pageVisits','mainPrice'].forEach(id=>$(id).addEventListener('input',e=>{current()[id]=e.target.value;updateSummary();renderReport();save()}));
+document.addEventListener('input',e=>{const m=e.target.dataset.metric,field=e.target.dataset.field,price=e.target.dataset.price;if(m&&field){let v=num(e.target.value);if(v!==null)v=Math.max(0,Math.min(100,v));current().metrics[m][field]=v===null?'':v;updateGap(m);buildTasks();renderTasks();updateSummary();renderReport();save()}if(price){current().metrics[price].price=e.target.value;updateSummary();renderReport();save()}const after=e.target.dataset.after;if(after){let v=num(e.target.value);if(v!==null)v=Math.max(0,Math.min(100,v));current().metrics[after].latest=v===null?'':v;const el=$('afterGap-'+after),base=num(current().metrics[after].base);if(el)el.textContent='Variação vs. início: '+(v===null||base===null?'—':pp(v-base));save()}});
+document.addEventListener('change',e=>{const audit=e.target.dataset.audit;if(audit){current().audits[audit]=e.target.value;buildTasks();renderTasks();renderReport();updateSummary();save()}const status=e.target.dataset.taskStatus;if(status){const t=current().tasks.find(x=>x.key===status);if(t)t.status=e.target.value;renderTasks();renderReport();updateSummary();save()}const check=e.target.dataset.taskCheck;if(check){const t=current().tasks.find(x=>x.key===check);if(t)t.selected=e.target.checked;renderTasks();renderReport();updateSummary();save()}});
+$('brandSelect').addEventListener('change',e=>{state.activeId=e.target.value;state.step=0;renderAll()});$('newBrand').addEventListener('click',()=>{const b=blankBrand();state.brands.push(b);state.activeId=b.id;state.step=0;renderAll();$('brandName').focus();toast('Nova marca criada. Preencha uma etapa por vez.')});$('prev').addEventListener('click',()=>showStep(state.step-1));$('next').addEventListener('click',()=>{const b=current();if(state.step===0){if(!b.name.trim()){toast('Digite o nome da marca.');$('brandName').focus();return}if(num(b.baseRevenue)===null||num(b.baseRevenue)<=0){toast('Digite o faturamento mensal atual.');$('baseRevenue').focus();return}if(num(b.pageVisits)===null||num(b.pageVisits)<=0){toast('Digite o número de visitas mensais à página.');$('pageVisits').focus();return}if(num(b.mainPrice)===null||num(b.mainPrice)<=0){toast('Digite o preço do produto principal.');$('mainPrice').focus();return}}if(state.step===4)saveBaseline();if(state.step<5)showStep(state.step+1);else showStep(0)});document.querySelectorAll('.step').forEach(el=>el.addEventListener('click',()=>{const n=Number(el.dataset.step);if(n<=state.step)showStep(n);else toast('Use Continuar para preencher etapa por etapa.')}));
+$('saveResult').addEventListener('click',()=>{const b=current(),revenue=num($('afterRevenue').value);if(revenue===null||revenue<0){toast('Preencha o faturamento depois das otimizações.');$('afterRevenue').focus();return}const date=$('afterDate').value||today(),metrics={};METRICS.forEach(m=>{const raw=document.querySelector('[data-after="'+m.id+'"]')?.value;const v=num(raw);metrics[m.id]=v===null?(num(b.metrics[m.id].latest)??num(b.metrics[m.id].base)):v;b.metrics[m.id].latest=metrics[m.id]===null?'':metrics[m.id]});b.history.push({kind:'result',id:uid(),label:'Resultado '+(b.history.filter(x=>x.kind==='result').length+1),date:new Date(date+'T12:00:00').toLocaleDateString('pt-BR'),stamp:date+'T12:00:00',revenue,metrics});save();renderEvolution();renderReport();toast('Resultado salvo. A evolução foi atualizada.')});
+$('printReport').addEventListener('click',()=>{renderReport();document.body.classList.add('print-report');window.print();setTimeout(()=>document.body.classList.remove('print-report'),1000)});$('printEvolution').addEventListener('click',()=>{document.body.classList.add('print-report');window.print();setTimeout(()=>document.body.classList.remove('print-report'),1000)});window.addEventListener('afterprint',()=>document.body.classList.remove('print-report'));
+$('backup').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='B4You_Growth_Backup.json';a.click();URL.revokeObjectURL(a.href);toast('Backup exportado.')});$('restoreLabel').addEventListener('click',()=>$('restore').click());$('restore').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);if(!Array.isArray(s.brands)||!s.brands.length)throw new Error('invalid');state={brands:s.brands.map(normalizeBrand),activeId:s.activeId,step:Math.max(0,Math.min(5,Number(s.step)||0))};if(!state.brands.some(b=>b.id===state.activeId))state.activeId=state.brands[0].id;save();renderAll();toast('Backup restaurado.')}catch(_){toast('Este arquivo não parece ser um backup válido.')}};r.readAsText(file);e.target.value=''});
+$('exportCsv').addEventListener('click',()=>{const b=current(),model=calcModel(),rows=[['B4You Growth Desk - Relatório',brandLabel(b)],['Faturamento atual (R$)',b.baseRevenue],['Visitas mensais',b.pageVisits],['Preço produto principal (R$)',b.mainPrice],[],['Indicador','Taxa atual (%)','Meta (%)','Preço unitário (R$)','Potencial adicional mensal (R$)'],...model.stageRows.map(r=>[r.name,r.rate,r.target,r.price,r.delta]),[],['Plano de ação','Prioridade','Motivo','Status','Incluída'],...(b.tasks||[]).map(t=>[t.title,t.priority,t.reason,t.status,t.selected?'Sim':'Não']),[],['Histórico','Data','Faturamento mensal'],...b.history.map(h=>[h.label,h.date,h.revenue])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='B4You_'+(b.name||'Marca').replace(/[^a-z0-9]+/gi,'_')+'_relatorio.csv';a.click();URL.revokeObjectURL(a.href)});
+$('afterDate').value=today();renderAll();
 })();
-</script>
-</body>
-</html>
+</script></body></html>
